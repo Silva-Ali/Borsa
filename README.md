@@ -1,2 +1,0 @@
-# Borsa
-Borsa simulator
