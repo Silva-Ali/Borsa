@@ -767,6 +767,176 @@
             color: var(--info);
         }
         
+        .xarali-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 0.75rem;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+        
+        .xarali-stock {
+            position: relative;
+            border: 2px solid #8b5cf6 !important;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(99, 102, 241, 0.05) 100%);
+            animation: xaraliGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes xaraliGlow {
+            0%, 100% { 
+                box-shadow: 0 0 15px rgba(139, 92, 246, 0.4), var(--shadow-md);
+            }
+            50% { 
+                box-shadow: 0 0 25px rgba(139, 92, 246, 0.7), var(--shadow-lg);
+            }
+        }
+        
+        .xarali-stock:hover {
+            box-shadow: 0 0 35px rgba(139, 92, 246, 0.9), var(--shadow-xl) !important;
+            transform: translateX(8px) !important;
+        }
+        
+        .signal-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .signal-buy {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .signal-sell {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .signal-neutral {
+            background: rgba(148, 163, 184, 0.2);
+            color: var(--text-muted);
+            border: 1px solid var(--text-muted);
+        }
+        
+        .bank-advice {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+        }
+        
+        .bank-name {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .bank-recommendation {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .bank-buy {
+            color: var(--success);
+        }
+        
+        .bank-sell {
+            color: var(--danger);
+        }
+        
+        .bank-hold {
+            color: var(--warning);
+        }
+        
+        .target-price {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+        
+        .advice-panel {
+            background: var(--bg-primary);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .advice-title {
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .advice-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .ai-signal-panel {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .ai-title {
+            font-weight: 700;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .ai-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .signal-strength {
+            display: flex;
+            gap: 0.25rem;
+            margin-top: 0.5rem;
+        }
+        
+        .strength-bar {
+            flex: 1;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+        }
+        
+        .strength-bar.active {
+            background: var(--success);
+        }
+        
+        .strength-bar.active.sell {
+            background: var(--danger);
+        }
+        
         .watchlist-btn {
             position: absolute;
             top: 0.75rem;
@@ -1267,6 +1437,212 @@
             opacity: 0.5;
         }
         
+        /* ACHIEVEMENTS SYSTEM */
+        .achievement-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #000;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.5), var(--shadow-xl);
+            z-index: 3000;
+            text-align: center;
+            min-width: 350px;
+            border: 3px solid #ffd700;
+            animation: achievementPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+        
+        @keyframes achievementPop {
+            0% { 
+                transform: translate(-50%, -50%) scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            70% { 
+                transform: translate(-50%, -50%) scale(1.1) rotate(10deg);
+            }
+            100% { 
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+        
+        .achievement-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: achievementBounce 0.8s infinite alternate;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+        }
+        
+        @keyframes achievementBounce {
+            from { transform: translateY(0) scale(1); }
+            to { transform: translateY(-15px) scale(1.1); }
+        }
+        
+        .achievement-title {
+            font-size: 1.75rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .achievement-desc {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        
+        .achievement-reward {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            display: inline-block;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+        
+        .achievement-card {
+            background: var(--bg-primary);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+        
+        .achievement-card:hover::before {
+            left: 100%;
+        }
+        
+        .achievement-card.unlocked {
+            border-color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 237, 78, 0.05) 100%);
+        }
+        
+        .achievement-card.locked {
+            opacity: 0.4;
+            filter: grayscale(1);
+        }
+        
+        .achievement-card:hover:not(.locked) {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .achievement-card-icon {
+            font-size: 3rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+        
+        .achievement-card-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .achievement-card-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+        
+        .achievement-progress {
+            background: var(--bg-secondary);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .achievement-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+            transition: width 0.3s;
+            border-radius: 3px;
+        }
+        
+        .achievement-progress-bar.complete {
+            background: linear-gradient(90deg, #ffd700 0%, #ffed4e 100%);
+        }
+        
+        .achievement-progress-text {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        
+        .achievement-reward-badge {
+            background: var(--success);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        
+        .achievement-unlocked-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #ffd700;
+            color: #000;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        
+        .achievements-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .achievement-stat-card {
+            background: var(--bg-primary);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            text-align: center;
+        }
+        
+        .achievement-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .achievement-stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        
         @media (max-width: 640px) {
             .welcome-card {
                 padding: 2rem 1.5rem;
@@ -1286,6 +1662,15 @@
             
             .btn {
                 flex: 1;
+            }
+            
+            .achievement-popup {
+                min-width: 90%;
+                padding: 1.5rem;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             }
         }
     </style>
@@ -1462,9 +1847,10 @@
             <nav class="tabs">
                 <button class="tab active" onclick="app.switchTab(0)">📊 Piyasa</button>
                 <button class="tab" onclick="app.switchTab(1)">💼 Portföy</button>
-                <button class="tab" onclick="app.switchTab(2)">🏆 Liderlik Tablosu</button>
-                <button class="tab" onclick="app.switchTab(3)">📰 Canlı Aktiviteler</button>
-                <button class="tab" onclick="app.switchTab(4)">⭐ İzleme Listesi</button>
+                <button class="tab" onclick="app.switchTab(2)">🏆 Liderlik</button>
+                <button class="tab" onclick="app.switchTab(3)">📰 Aktiviteler</button>
+                <button class="tab" onclick="app.switchTab(4)">⭐ İzleme</button>
+                <button class="tab" onclick="app.switchTab(5)">🎖️ Başarımlar</button>
             </nav>
             
             <!-- Tab: Market -->
@@ -1568,6 +1954,33 @@
                 <div class="panel">
                     <h2 class="panel-title">⭐ İzleme Listesi</h2>
                     <div id="watchlistContent"></div>
+                </div>
+            </div>
+            
+            <!-- Tab: Achievements -->
+            <div class="tab-content" id="tab5">
+                <div class="panel">
+                    <h2 class="panel-title">🎖️ Başarımlar</h2>
+                    <p class="text-muted" style="font-size: 0.875rem; margin-bottom: 1.5rem;">
+                        Başarımları tamamla, ödüller kazan! 🏆
+                    </p>
+                    
+                    <div class="achievements-stats">
+                        <div class="achievement-stat-card">
+                            <div class="achievement-stat-value" id="achievementUnlocked">0</div>
+                            <div class="achievement-stat-label">🔓 Açıldı</div>
+                        </div>
+                        <div class="achievement-stat-card">
+                            <div class="achievement-stat-value" id="achievementTotal">9</div>
+                            <div class="achievement-stat-label">📊 Toplam</div>
+                        </div>
+                        <div class="achievement-stat-card">
+                            <div class="achievement-stat-value text-success" id="achievementRewards">0 ₺</div>
+                            <div class="achievement-stat-label">💰 Kazanılan</div>
+                        </div>
+                    </div>
+                    
+                    <div class="achievements-grid" id="achievementsGrid"></div>
                 </div>
             </div>
         </div>
@@ -1698,38 +2111,55 @@
             sectorMomentum: {},
             detailChart: null,
             
+            banks: ['JP Morgan', 'Goldman Sachs', 'Morgan Stanley', 'Deutsche Bank', 'Credit Suisse', 'HSBC', 'Citibank'],
+            
             stocks: [
-                {id:1,symbol:'GARAN',name:'Garanti BBVA',sector:'Finans',price:68.50,basePrice:68.50,history:[68.50],change:0,volume:0},
-                {id:2,symbol:'AKBNK',name:'Akbank',sector:'Finans',price:45.30,basePrice:45.30,history:[45.30],change:0,volume:0},
-                {id:3,symbol:'ISCTR',name:'İş Bankası',sector:'Finans',price:48.90,basePrice:48.90,history:[48.90],change:0,volume:0},
-                {id:4,symbol:'YKBNK',name:'Yapı Kredi',sector:'Finans',price:35.80,basePrice:35.80,history:[35.80],change:0,volume:0},
-                {id:5,symbol:'HALKB',name:'Halkbank',sector:'Finans',price:28.60,basePrice:28.60,history:[28.60],change:0,volume:0},
-                {id:6,symbol:'VAKBN',name:'Vakıfbank',sector:'Finans',price:42.15,basePrice:42.15,history:[42.15],change:0,volume:0},
-                {id:7,symbol:'KCHOL',name:'Koç Holding',sector:'Holding',price:95.40,basePrice:95.40,history:[95.40],change:0,volume:0},
-                {id:8,symbol:'SAHOL',name:'Sabancı Holding',sector:'Holding',price:52.80,basePrice:52.80,history:[52.80],change:0,volume:0},
-                {id:9,symbol:'DOHOL',name:'Doğan Holding',sector:'Holding',price:12.85,basePrice:12.85,history:[12.85],change:0,volume:0},
-                {id:10,symbol:'TUPRS',name:'Tüpraş',sector:'Enerji',price:180.75,basePrice:180.75,history:[180.75],change:0,volume:0},
-                {id:11,symbol:'PETKM',name:'Petkim',sector:'Enerji',price:15.45,basePrice:15.45,history:[15.45],change:0,volume:0},
-                {id:12,symbol:'AKSEN',name:'Aksa Enerji',sector:'Enerji',price:125.30,basePrice:125.30,history:[125.30],change:0,volume:0},
-                {id:13,symbol:'THYAO',name:'THY',sector:'Ulaştırma',price:250.50,basePrice:250.50,history:[250.50],change:0,volume:0},
-                {id:14,symbol:'BIMAS',name:'BIM',sector:'Perakende',price:320.20,basePrice:320.20,history:[320.20],change:0,volume:0},
-                {id:15,symbol:'MGROS',name:'Migros',sector:'Perakende',price:185.60,basePrice:185.60,history:[185.60],change:0,volume:0},
-                {id:16,symbol:'ASELS',name:'Aselsan',sector:'Savunma',price:142.90,basePrice:142.90,history:[142.90],change:0,volume:0},
-                {id:17,symbol:'TCELL',name:'Turkcell',sector:'Teknoloji',price:78.20,basePrice:78.20,history:[78.20],change:0,volume:0},
-                {id:18,symbol:'VESTL',name:'Vestel',sector:'Teknoloji',price:24.30,basePrice:24.30,history:[24.30],change:0,volume:0},
-                {id:19,symbol:'LOGO',name:'Logo Yazılım',sector:'Teknoloji',price:56.75,basePrice:56.75,history:[56.75],change:0,volume:0},
-                {id:20,symbol:'EREGL',name:'Ereğli Demir Çelik',sector:'Sanayi',price:28.60,basePrice:28.60,history:[28.60],change:0,volume:0},
-                {id:21,symbol:'SISE',name:'Şişe Cam',sector:'Sanayi',price:38.70,basePrice:38.70,history:[38.70],change:0,volume:0},
-                {id:22,symbol:'TOASO',name:'Tofaş',sector:'Otomotiv',price:105.60,basePrice:105.60,history:[105.60],change:0,volume:0},
-                {id:23,symbol:'FROTO',name:'Ford Otosan',sector:'Otomotiv',price:285.40,basePrice:285.40,history:[285.40],change:0,volume:0},
-                {id:24,symbol:'KOZAL',name:'Koza Altın',sector:'Madencilik',price:89.30,basePrice:89.30,history:[89.30],change:0,volume:0},
-                {id:25,symbol:'IPEKE',name:'İpek Enerji',sector:'Madencilik',price:42.80,basePrice:42.80,history:[42.80],change:0,volume:0},
-                {id:26,symbol:'ENKAI',name:'Enka İnşaat',sector:'İnşaat',price:67.45,basePrice:67.45,history:[67.45],change:0,volume:0},
-                {id:27,symbol:'BRSAN',name:'Borusan',sector:'Tekstil',price:34.20,basePrice:34.20,history:[34.20],change:0,volume:0},
-                {id:28,symbol:'ULKER',name:'Ülker',sector:'Gıda',price:156.30,basePrice:156.30,history:[156.30],change:0,volume:0},
-                {id:29,symbol:'TATGD',name:'Tat Gıda',sector:'Gıda',price:23.85,basePrice:23.85,history:[23.85],change:0,volume:0},
-                {id:30,symbol:'CCOLA',name:'Coca Cola',sector:'Gıda',price:198.50,basePrice:198.50,history:[198.50],change:0,volume:0}
+                {id:1,symbol:'GARAN',name:'Garanti BBVA',sector:'Finans',price:68.50,basePrice:68.50,history:[68.50],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:2,symbol:'AKBNK',name:'Akbank',sector:'Finans',price:45.30,basePrice:45.30,history:[45.30],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:3,symbol:'ISCTR',name:'İş Bankası',sector:'Finans',price:48.90,basePrice:48.90,history:[48.90],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:4,symbol:'YKBNK',name:'Yapı Kredi',sector:'Finans',price:35.80,basePrice:35.80,history:[35.80],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:5,symbol:'HALKB',name:'Halkbank',sector:'Finans',price:28.60,basePrice:28.60,history:[28.60],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:6,symbol:'VAKBN',name:'Vakıfbank',sector:'Finans',price:42.15,basePrice:42.15,history:[42.15],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:7,symbol:'KCHOL',name:'Koç Holding',sector:'Holding',price:95.40,basePrice:95.40,history:[95.40],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:8,symbol:'SAHOL',name:'Sabancı Holding',sector:'Holding',price:52.80,basePrice:52.80,history:[52.80],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:9,symbol:'DOHOL',name:'Doğan Holding',sector:'Holding',price:12.85,basePrice:12.85,history:[12.85],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:10,symbol:'TUPRS',name:'Tüpraş',sector:'Enerji',price:180.75,basePrice:180.75,history:[180.75],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:11,symbol:'PETKM',name:'Petkim',sector:'Enerji',price:15.45,basePrice:15.45,history:[15.45],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:12,symbol:'AKSEN',name:'Aksa Enerji',sector:'Enerji',price:125.30,basePrice:125.30,history:[125.30],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:13,symbol:'THYAO',name:'THY',sector:'Ulaştırma',price:250.50,basePrice:250.50,history:[250.50],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:14,symbol:'BIMAS',name:'BIM',sector:'Perakende',price:320.20,basePrice:320.20,history:[320.20],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:15,symbol:'MGROS',name:'Migros',sector:'Perakende',price:185.60,basePrice:185.60,history:[185.60],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:16,symbol:'ASELS',name:'Aselsan',sector:'Savunma',price:142.90,basePrice:142.90,history:[142.90],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:17,symbol:'TCELL',name:'Turkcell',sector:'Teknoloji',price:78.20,basePrice:78.20,history:[78.20],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:18,symbol:'VESTL',name:'Vestel',sector:'Teknoloji',price:24.30,basePrice:24.30,history:[24.30],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:19,symbol:'LOGO',name:'Logo Yazılım',sector:'Teknoloji',price:56.75,basePrice:56.75,history:[56.75],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:20,symbol:'EREGL',name:'Ereğli Demir Çelik',sector:'Sanayi',price:28.60,basePrice:28.60,history:[28.60],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:21,symbol:'SISE',name:'Şişe Cam',sector:'Sanayi',price:38.70,basePrice:38.70,history:[38.70],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:22,symbol:'TOASO',name:'Tofaş',sector:'Otomotiv',price:105.60,basePrice:105.60,history:[105.60],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:23,symbol:'FROTO',name:'Ford Otosan',sector:'Otomotiv',price:285.40,basePrice:285.40,history:[285.40],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:24,symbol:'KOZAL',name:'Koza Altın',sector:'Madencilik',price:89.30,basePrice:89.30,history:[89.30],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:25,symbol:'IPEKE',name:'İpek Enerji',sector:'Madencilik',price:42.80,basePrice:42.80,history:[42.80],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:26,symbol:'ENKAI',name:'Enka İnşaat',sector:'İnşaat',price:67.45,basePrice:67.45,history:[67.45],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:27,symbol:'BRSAN',name:'Borusan',sector:'Tekstil',price:34.20,basePrice:34.20,history:[34.20],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:28,symbol:'ULKER',name:'Ülker',sector:'Gıda',price:156.30,basePrice:156.30,history:[156.30],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:29,symbol:'TATGD',name:'Tat Gıda',sector:'Gıda',price:23.85,basePrice:23.85,history:[23.85],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:30,symbol:'CCOLA',name:'Coca Cola',sector:'Gıda',price:198.50,basePrice:198.50,history:[198.50],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0},
+                {id:31,symbol:'XRALI',name:'XarAli Yazılım A.Ş.',sector:'Teknoloji',price:45.00,basePrice:45.00,history:[45.00],change:0,volume:0,signal:'',bankAdvice:null,targetPrice:0,isXarAli:true}
             ],
+            
+            // ACHIEVEMENTS SYSTEM
+            achievements: [
+                {id:'first_trade',icon:'🎯',title:'İlk İşlem',desc:'İlk alım/satım işlemini yap',reward:500,unlocked:false,progress:0,target:1},
+                {id:'trader_10',icon:'📊',title:'Aktif Trader',desc:'10 işlem gerçekleştir',reward:1000,unlocked:false,progress:0,target:10},
+                {id:'trader_50',icon:'🔥',title:'Deneyimli',desc:'50 işlem yap',reward:3000,unlocked:false,progress:0,target:50},
+                {id:'trader_100',icon:'💎',title:'Usta Trader',desc:'100 işlem tamamla',reward:10000,unlocked:false,progress:0,target:100},
+                {id:'rich_150k',icon:'💰',title:'Zengin',desc:'150.000₺ toplam varlığa ulaş',reward:2000,unlocked:false,progress:0,target:150000},
+                {id:'rich_200k',icon:'👑',title:'Çok Zengin',desc:'200.000₺ toplam varlığa ulaş',reward:5000,unlocked:false,progress:0,target:200000},
+                {id:'profit_25',icon:'📈',title:'Karlı Yatırımcı',desc:'%25 kar yap',reward:3000,unlocked:false,progress:0,target:25},
+                {id:'profit_50',icon:'🚀',title:'Kar Makinesi',desc:'%50 kar yap',reward:10000,unlocked:false,progress:0,target:50},
+                {id:'leader_1',icon:'🏆',title:'Lider',desc:'1. sıraya çık',reward:20000,unlocked:false,progress:0,target:1}
+            ],
+            totalAchievementRewards: 0,
             
             formatMoney(amount) {
                 return new Intl.NumberFormat('tr-TR', {
@@ -1744,6 +2174,76 @@
                 if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
                 if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
                 return num.toFixed(0);
+            },
+            
+            calculateAISignal(stock) {
+                // AI algoritması - fiyat momentum + sektör momentum + teknik göstergeler
+                const priceChange = stock.change;
+                const sectorMomentum = this.sectorMomentum[stock.sector] || 0;
+                
+                // Son 10 periyodun ortalaması
+                const recentHistory = stock.history.slice(-10);
+                const avgRecent = recentHistory.reduce((a, b) => a + b, 0) / recentHistory.length;
+                const trendStrength = ((stock.price - avgRecent) / avgRecent) * 100;
+                
+                // AI skoru hesapla
+                const aiScore = (priceChange * 0.4) + (sectorMomentum * 0.3) + (trendStrength * 0.3);
+                
+                let signal = '';
+                let strength = 0;
+                let reason = '';
+                
+                if (aiScore > 2) {
+                    signal = 'BUY';
+                    strength = Math.min(5, Math.floor(aiScore / 1.5));
+                    reason = 'Güçlü yükseliş trendi tespit edildi. Sektör momentumu pozitif.';
+                } else if (aiScore < -2) {
+                    signal = 'SELL';
+                    strength = Math.min(5, Math.floor(Math.abs(aiScore) / 1.5));
+                    reason = 'Düşüş trendi tespit edildi. Risk yönetimi önerisi.';
+                } else {
+                    signal = 'NEUTRAL';
+                    strength = 0;
+                    reason = 'Yatay seyir. Pozisyon bekleme önerisi.';
+                }
+                
+                stock.signal = signal;
+                stock.signalStrength = strength;
+                stock.signalReason = reason;
+            },
+            
+            generateBankAdvice(stock) {
+                // Her 30 saniyede bir %20 şans ile banka tavsiyesi üret
+                if (Math.random() < 0.2) {
+                    const bank = this.banks[Math.floor(Math.random() * this.banks.length)];
+                    const adviceTypes = ['AL', 'SAT', 'TUT'];
+                    
+                    // AI sinyali ile uyumlu olma eğilimi (%70)
+                    let advice;
+                    if (Math.random() < 0.7 && stock.signal) {
+                        if (stock.signal === 'BUY') {
+                            advice = adviceTypes[Math.random() < 0.8 ? 0 : 2];
+                        } else if (stock.signal === 'SELL') {
+                            advice = adviceTypes[Math.random() < 0.8 ? 1 : 2];
+                        } else {
+                            advice = adviceTypes[2];
+                        }
+                    } else {
+                        advice = adviceTypes[Math.floor(Math.random() * adviceTypes.length)];
+                    }
+                    
+                    // Hedef fiyat hesapla
+                    const targetMultiplier = advice === 'AL' ? (1.05 + Math.random() * 0.15) : 
+                                           advice === 'SAT' ? (0.85 + Math.random() * 0.1) : 
+                                           (0.95 + Math.random() * 0.1);
+                    
+                    stock.bankAdvice = {
+                        bank: bank,
+                        advice: advice,
+                        targetPrice: stock.price * targetMultiplier,
+                        date: new Date().toLocaleDateString('tr-TR')
+                    };
+                }
             },
             
             showNotification(message, type = 'success') {
@@ -1763,6 +2263,124 @@
                 document.body.appendChild(notification);
                 
                 setTimeout(() => notification.remove(), 3000);
+            },
+            
+            // ACHIEVEMENT FUNCTIONS
+            checkAchievements() {
+                if (!this.currentUser) return;
+                
+                const totalValue = this.currentUser.totalValue || this.INITIAL_CASH;
+                const profitPercent = ((totalValue - this.INITIAL_CASH) / this.INITIAL_CASH) * 100;
+                const portfolioSize = Object.keys(this.currentUser.portfolio || {}).length;
+                
+                // Liderlik sırası
+                const sorted = [...this.users].sort((a, b) => b.totalValue - a.totalValue);
+                const rank = sorted.findIndex(u => u.username === this.currentUser.username) + 1;
+                
+                this.achievements.forEach(ach => {
+                    if (ach.unlocked) return;
+                    
+                    let currentProgress = 0;
+                    
+                    switch(ach.id) {
+                        case 'first_trade':
+                        case 'trader_10':
+                        case 'trader_50':
+                        case 'trader_100':
+                            currentProgress = this.totalTrades;
+                            break;
+                        case 'rich_150k':
+                        case 'rich_200k':
+                            currentProgress = totalValue;
+                            break;
+                        case 'profit_25':
+                        case 'profit_50':
+                            currentProgress = profitPercent;
+                            break;
+                        case 'leader_1':
+                            currentProgress = rank === 1 ? 1 : 0;
+                            break;
+                    }
+                    
+                    ach.progress = currentProgress;
+                    
+                    if (currentProgress >= ach.target && !ach.unlocked) {
+                        this.unlockAchievement(ach);
+                    }
+                });
+                
+                this.renderAchievements();
+            },
+            
+            unlockAchievement(ach) {
+                ach.unlocked = true;
+                ach.progress = ach.target;
+                
+                // Ödülü ver
+                if (this.currentUser) {
+                    this.currentUser.cash += ach.reward;
+                    this.totalAchievementRewards += ach.reward;
+                }
+                
+                // Popup göster
+                this.showAchievementPopup(ach);
+                
+                this.saveData();
+            },
+            
+            showAchievementPopup(ach) {
+                const popup = document.createElement('div');
+                popup.className = 'achievement-popup';
+                popup.innerHTML = `
+                    <div class="achievement-icon">${ach.icon}</div>
+                    <div class="achievement-title">BAŞARIM AÇILDI!</div>
+                    <div class="achievement-desc">${ach.title}</div>
+                    <div class="achievement-desc" style="font-size: 0.875rem;">${ach.desc}</div>
+                    <div class="achievement-reward">+${this.formatMoney(ach.reward)}</div>
+                `;
+                
+                document.body.appendChild(popup);
+                
+                // Ses efekti (opsiyonel)
+                try {
+                    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYcbrvt559NEAxPpuPwtmMcBjiP1/LMeSwFJHfH8N2QQAoVXbPp66hVFApGnt/zv2wiBSqAzvLaiTYIGmm98OZNEAxPpuPwtmMcBjiP1/LMeSw='); audio.play();
+                } catch(e) {}
+                
+                setTimeout(() => popup.remove(), 4000);
+            },
+            
+            renderAchievements() {
+                const grid = document.getElementById('achievementsGrid');
+                if (!grid) return;
+                
+                const unlocked = this.achievements.filter(a => a.unlocked).length;
+                const total = this.achievements.length;
+                
+                document.getElementById('achievementUnlocked').textContent = unlocked;
+                document.getElementById('achievementTotal').textContent = total;
+                document.getElementById('achievementRewards').textContent = this.formatMoney(this.totalAchievementRewards);
+                
+                grid.innerHTML = this.achievements.map(ach => {
+                    const percent = Math.min(100, (ach.progress / ach.target) * 100);
+                    const cardClass = ach.unlocked ? 'achievement-card unlocked' : 'achievement-card locked';
+                    
+                    return `
+                        <div class="${cardClass}">
+                            ${ach.unlocked ? '<div class="achievement-unlocked-badge">✓ AÇILDI</div>' : ''}
+                            <div class="achievement-card-icon">${ach.icon}</div>
+                            <div class="achievement-card-title">${ach.title}</div>
+                            <div class="achievement-card-desc">${ach.desc}</div>
+                            <div class="achievement-progress">
+                                <div class="achievement-progress-bar ${ach.unlocked ? 'complete' : ''}" 
+                                     style="width: ${percent}%"></div>
+                            </div>
+                            <div class="achievement-progress-text">
+                                ${ach.progress >= ach.target ? ach.target : Math.floor(ach.progress)} / ${ach.target}
+                            </div>
+                            <div class="achievement-reward-badge">+${this.formatMoney(ach.reward)}</div>
+                        </div>
+                    `;
+                }).join('');
             },
             
             calculateFees(amount) {
@@ -1955,8 +2573,38 @@
                     const changeIcon = stock.change >= 0 ? '▲' : '▼';
                     const sectorBadge = this.getSectorBadge(stock.sector);
                     
+                    // XarAli için özel stil
+                    const xaraliClass = stock.isXarAli ? ' xarali-stock' : '';
+                    const xaraliBadge = stock.isXarAli ? '<div class="xarali-badge">⭐ XarAli Yazılım - Platform Sahibi</div>' : '';
+                    
+                    // AI Sinyal Badge
+                    let signalBadge = '';
+                    if (stock.signal === 'BUY') {
+                        signalBadge = '<span class="signal-badge signal-buy">🚀 AL</span>';
+                    } else if (stock.signal === 'SELL') {
+                        signalBadge = '<span class="signal-badge signal-sell">⚠️ SAT</span>';
+                    } else if (stock.signal === 'NEUTRAL') {
+                        signalBadge = '<span class="signal-badge signal-neutral">⏸️ BEKLE</span>';
+                    }
+                    
+                    // Banka Tavsiyesi
+                    let bankBadge = '';
+                    if (stock.bankAdvice) {
+                        const adviceClass = stock.bankAdvice.advice === 'AL' ? 'bank-buy' : 
+                                          stock.bankAdvice.advice === 'SAT' ? 'bank-sell' : 'bank-hold';
+                        const adviceIcon = stock.bankAdvice.advice === 'AL' ? '📈' : 
+                                         stock.bankAdvice.advice === 'SAT' ? '📉' : '⏸️';
+                        bankBadge = `<div class="bank-advice">
+                            <div class="bank-name">🏦 ${stock.bankAdvice.bank}</div>
+                            <div class="bank-recommendation ${adviceClass}">
+                                ${adviceIcon} ${stock.bankAdvice.advice}
+                            </div>
+                            <div class="target-price">Hedef: ${this.formatMoney(stock.bankAdvice.targetPrice)}</div>
+                        </div>`;
+                    }
+                    
                     return `
-                        <div class="stock-item" onclick="app.openStock(${stock.id})">
+                        <div class="stock-item${xaraliClass}" onclick="app.openStock(${stock.id})">
                             <button 
                                 class="watchlist-btn ${isWatched ? 'active' : ''}" 
                                 onclick="event.stopPropagation(); app.toggleWatchlist(${stock.id})"
@@ -1979,8 +2627,11 @@
                             <div class="stock-meta">
                                 <span class="stock-badge">${stock.sector}</span>
                                 ${sectorBadge}
+                                ${signalBadge}
                                 <span>📊 ${this.formatNumber(stock.volume)}</span>
                             </div>
+                            ${xaraliBadge}
+                            ${bankBadge}
                         </div>
                     `;
                 }).join('');
@@ -2151,11 +2802,108 @@
                 document.getElementById('detailVolume').textContent = this.formatNumber(this.selectedStock.volume);
                 document.getElementById('detailOwned').textContent = owned + ' lot';
                 
+                // AI Sinyal ve Banka Tavsiyeleri Göster
+                this.renderAdvicePanel();
+                
                 this.drawDetailChart();
                 this.switchTradeTab('buy');
                 
                 document.getElementById('stockModal').classList.add('active');
                 document.body.style.overflow = 'hidden';
+            },
+            
+            renderAdvicePanel() {
+                const stock = this.selectedStock;
+                let adviceHTML = '';
+                
+                // AI Sinyal Paneli
+                if (stock.signal) {
+                    const signalClass = stock.signal === 'BUY' ? 'text-success' : 
+                                       stock.signal === 'SELL' ? 'text-danger' : 'text-muted';
+                    const signalIcon = stock.signal === 'BUY' ? '🚀' : 
+                                      stock.signal === 'SELL' ? '⚠️' : '⏸️';
+                    const signalText = stock.signal === 'BUY' ? 'ALIM SİNYALİ' : 
+                                      stock.signal === 'SELL' ? 'SATIŞ SİNYALİ' : 'NÖTR';
+                    
+                    let strengthBars = '';
+                    for (let i = 0; i < 5; i++) {
+                        const activeClass = i < stock.signalStrength ? 
+                            (stock.signal === 'SELL' ? 'active sell' : 'active') : '';
+                        strengthBars += `<div class="strength-bar ${activeClass}"></div>`;
+                    }
+                    
+                    adviceHTML += `
+                        <div class="ai-signal-panel">
+                            <div class="ai-title">
+                                🤖 AI Sinyal Analizi
+                            </div>
+                            <div class="advice-content">
+                                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                                    <span style="font-size: 2rem;">${signalIcon}</span>
+                                    <div>
+                                        <div class="${signalClass}" style="font-weight: 700; font-size: 1.125rem;">
+                                            ${signalText}
+                                        </div>
+                                        <div style="font-size: 0.75rem; color: var(--text-muted);">
+                                            Güç: ${stock.signalStrength}/5
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="signal-strength">${strengthBars}</div>
+                                <div class="ai-description">${stock.signalReason}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Banka Tavsiyesi Paneli
+                if (stock.bankAdvice) {
+                    const advice = stock.bankAdvice;
+                    const adviceClass = advice.advice === 'AL' ? 'bank-buy' : 
+                                       advice.advice === 'SAT' ? 'bank-sell' : 'bank-hold';
+                    const adviceIcon = advice.advice === 'AL' ? '📈' : 
+                                      advice.advice === 'SAT' ? '📉' : '⏸️';
+                    const adviceText = advice.advice === 'AL' ? 'ALIM TAVSİYESİ' : 
+                                      advice.advice === 'SAT' ? 'SATIŞ TAVSİYESİ' : 'TUT TAVSİYESİ';
+                    
+                    adviceHTML += `
+                        <div class="advice-panel">
+                            <div class="advice-title">
+                                🏦 ${advice.bank} Tavsiyesi
+                            </div>
+                            <div class="advice-content">
+                                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                    <span style="font-size: 2rem;">${adviceIcon}</span>
+                                    <div>
+                                        <div class="${adviceClass}" style="font-weight: 700; font-size: 1.125rem;">
+                                            ${adviceText}
+                                        </div>
+                                        <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                                            Hedef Fiyat: <strong>${this.formatMoney(advice.targetPrice)}</strong>
+                                        </div>
+                                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+                                            Tarih: ${advice.date}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Paneli modal'da grafikten önce yerleştir
+                const chartContainer = document.querySelector('.chart-container');
+                const existingAdvice = document.getElementById('adviceContainer');
+                if (existingAdvice) {
+                    existingAdvice.remove();
+                }
+                
+                if (adviceHTML) {
+                    const adviceContainer = document.createElement('div');
+                    adviceContainer.id = 'adviceContainer';
+                    adviceContainer.innerHTML = adviceHTML;
+                    chartContainer.parentNode.insertBefore(adviceContainer, chartContainer);
+                }
             },
             
             closeModal() {
@@ -2329,6 +3077,9 @@
                 this.renderPortfolio();
                 this.closeModal();
                 this.saveData();
+                
+                // Achievement kontrolü
+                this.checkAchievements();
             },
             
             sellAll() {
@@ -2387,6 +3138,7 @@
                 if (index === 1) this.renderPortfolio();
                 if (index === 2) this.updateLeaderboard();
                 if (index === 4) this.renderWatchlist();
+                if (index === 5) this.renderAchievements();
             },
             
             updateDisplay() {
@@ -2421,6 +3173,9 @@
                 this.renderStocks();
                 this.renderPortfolio();
                 this.updateLeaderboard();
+                
+                // Achievement kontrolü
+                this.checkAchievements();
             },
             
             updatePrices() {
@@ -2433,14 +3188,48 @@
                     this.sectorMomentum[stock.sector] += (targetMomentum - this.sectorMomentum[stock.sector]) * 0.05;
                     
                     const momentum = this.sectorMomentum[stock.sector] || 0;
-                    const baseChange = (Math.random() - 0.5) * 2;
-                    const changePercent = baseChange + (momentum * 0.3);
+                    let baseChange = (Math.random() - 0.5) * 2;
+                    let changePercent = baseChange + (momentum * 0.3);
+                    
+                    // XarAli Yazılım için ÖZEL ALGORİTMA - Volatil ama yukarı trend
+                    if (stock.isXarAli) {
+                        // Çok volatil hareket: -5% ile +8% arası
+                        const volatileChange = (Math.random() - 0.3) * 5; // -1.5 ile +3.5 arası bias
+                        
+                        // Yukarı trend bias ekle: %70 ihtimalle pozitif
+                        const trendBias = Math.random() < 0.7 ? Math.random() * 2 : -Math.random() * 0.5;
+                        
+                        // Momentum ekstra güçlü
+                        const xaraliMomentum = (Math.random() - 0.2) * 3; // -0.6 ile +2.4
+                        
+                        changePercent = volatileChange + trendBias + xaraliMomentum;
+                        
+                        // Bazen büyük sıçramalar (pump): %5 ihtimal
+                        if (Math.random() < 0.05) {
+                            changePercent += Math.random() * 8; // Ekstra +0 ile +8% sıçrama
+                        }
+                        
+                        // Nadir düşüşler (dip): %3 ihtimal
+                        if (Math.random() < 0.03) {
+                            changePercent -= Math.random() * 5; // Ekstra -0 ile -5% düşüş
+                        }
+                        
+                        // Volume da çok yüksek olsun
+                        stock.volume = Math.floor(Math.random() * 3000000) + 1000000; // 1M - 4M
+                    } else {
+                        stock.volume = Math.floor(Math.random() * 1000000) + 100000;
+                    }
                     
                     stock.change = changePercent;
                     stock.price = Math.max(1, stock.price * (1 + changePercent / 100));
-                    stock.volume = Math.floor(Math.random() * 1000000) + 100000;
                     stock.history.push(stock.price);
                     if (stock.history.length > 100) stock.history.shift();
+                    
+                    // AI Sinyal Hesapla
+                    this.calculateAISignal(stock);
+                    
+                    // Banka Tavsiyesi Üret (şans bazlı)
+                    this.generateBankAdvice(stock);
                 });
                 
                 if (this.currentUser) {
@@ -2645,6 +3434,9 @@
                         activities: this.activities,
                         sectorMomentum: this.sectorMomentum,
                         watchlist: this.watchlist,
+                        achievements: this.achievements,
+                        totalAchievementRewards: this.totalAchievementRewards,
+                        totalTrades: this.totalTrades,
                         theme: document.body.getAttribute('data-theme')
                     };
                     localStorage.setItem('bistTradingUltimate', JSON.stringify(data));
@@ -2662,6 +3454,18 @@
                         this.activities = data.activities || [];
                         this.sectorMomentum = data.sectorMomentum || {};
                         this.watchlist = data.watchlist || [];
+                        this.totalTrades = data.totalTrades || 0;
+                        
+                        // Achievements yükle
+                        if (data.achievements) {
+                            data.achievements.forEach((savedAch, i) => {
+                                if (this.achievements[i]) {
+                                    this.achievements[i].unlocked = savedAch.unlocked;
+                                    this.achievements[i].progress = savedAch.progress;
+                                }
+                            });
+                        }
+                        this.totalAchievementRewards = data.totalAchievementRewards || 0;
                         
                         if (data.theme === 'light') {
                             document.body.setAttribute('data-theme', 'light');
@@ -2702,8 +3506,11 @@
                     }
                 });
                 
-                console.log('🚀 Borsa İstanbul ULTIMATE - All features loaded!');
-                console.log('📊 30 Stocks | 💼 Portfolio | 🏆 Leaderboard | 📰 Activities | ⭐ Watchlist | 📈 Charts | 🎨 Themes');
+                console.log('🚀 Borsa İstanbul ULTRA MEGA PRO - All features loaded!');
+                console.log('📊 31 Stocks (30 BIST + XRALI) | 💼 Portfolio | 🏆 Leaderboard | 📰 Activities');
+                console.log('⭐ Watchlist | 📈 Charts | 🎨 Themes | 🎖️ ACHIEVEMENTS');
+                console.log('🤖 AI Signals | 🏦 Bank Recommendations | 🎯 Target Prices');
+                console.log('⭐ XRALI - XarAli Yazılım A.Ş. - Volatil & Yükseliş Trendi!');
             }
         };
         
