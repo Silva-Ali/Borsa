@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Borsa İstanbul Trading Platform | XarAli Yazılım</title>
+    <title>🚀 Borsa İstanbul ULTRA PRO | XarAli Yazılım A.Ş.</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         * {
@@ -440,6 +446,7 @@
             padding: 0.75rem 1rem;
             background: var(--bg-tertiary);
             border-radius: 0.5rem;
+            min-width: 280px;
         }
         
         .user-avatar {
@@ -1643,6 +1650,503 @@
             color: var(--text-muted);
         }
         
+        /* News Feed */
+        .news-item {
+            background: var(--bg-primary);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--info);
+            transition: all 0.2s;
+            animation: newsSlideIn 0.4s ease-out;
+        }
+        
+        @keyframes newsSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .news-item:hover {
+            background: var(--bg-tertiary);
+            transform: translateX(4px);
+        }
+        
+        .news-item.positive {
+            border-left-color: var(--success);
+        }
+        
+        .news-item.negative {
+            border-left-color: var(--danger);
+        }
+        
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+        
+        .news-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .news-badge.positive {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+        
+        .news-badge.negative {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+        
+        .news-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .news-timer {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.375rem 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .news-timer.active {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+        
+        .news-impact {
+            font-weight: 700;
+        }
+        
+        .news-stock-btn {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.875rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .news-stock-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(196, 30, 58, 0.4);
+        }
+        
+        .news-stock-btn:active {
+            transform: translateY(0);
+        }
+        
+        .news-item.positive .news-stock-btn {
+            background: linear-gradient(135deg, var(--success) 0%, var(--success-hover) 100%);
+        }
+        
+        .news-item.positive .news-stock-btn:hover {
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+        }
+        
+        .news-item.negative .news-stock-btn {
+            background: linear-gradient(135deg, var(--danger) 0%, var(--danger-hover) 100%);
+        }
+        
+        .news-item.negative .news-stock-btn:hover {
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+        }
+        
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+        
+        .xp-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .xp-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8b5cf6 0%, #6366f1 100%);
+            transition: width 0.3s;
+            border-radius: 4px;
+        }
+        
+        /* 🎯 DAILY MISSIONS */
+        .mission-card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+        
+        .mission-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .mission-card.completed {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.05) 100%);
+            border-color: var(--success);
+        }
+        
+        .mission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .mission-icon {
+            font-size: 2rem;
+            filter: grayscale(1);
+        }
+        
+        .mission-card.completed .mission-icon {
+            filter: grayscale(0);
+            animation: missionBounce 0.6s ease-out;
+        }
+        
+        @keyframes missionBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+        
+        .mission-title {
+            font-weight: 700;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .mission-desc {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+        
+        .mission-progress-bar {
+            background: var(--bg-secondary);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .mission-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, #8b1538 100%);
+            transition: width 0.5s ease-out;
+        }
+        
+        .mission-card.completed .mission-progress-fill {
+            background: linear-gradient(90deg, var(--success) 0%, var(--success-hover) 100%);
+        }
+        
+        .mission-reward {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #8b1538 100%);
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+        
+        .mission-card.completed .mission-reward {
+            background: linear-gradient(135deg, var(--success) 0%, var(--success-hover) 100%);
+        }
+        
+        /* 🎰 LUCKY WHEEL */
+        .wheel-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 2rem auto;
+        }
+        
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 12px solid #ffd700;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.6), 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+        }
+        
+        .wheel-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-align: center;
+            padding: 1rem;
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
+        }
+        
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 50%;
+            border: 6px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            z-index: 10;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .wheel-center:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .wheel-center:active {
+            transform: translate(-50%, -50%) scale(0.95);
+        }
+        
+        .wheel-pointer {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 40px solid #ef4444;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            z-index: 20;
+        }
+        
+        .wheel-info {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .wheel-spins-left {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .wheel-next-spin {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+        
+        .wheel-prizes-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+        
+        .wheel-prize-item {
+            background: var(--bg-primary);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+        
+        /* ⚡ FLASH EVENT */
+        .flash-event-banner {
+            position: fixed;
+            top: 5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(239, 68, 68, 0.5);
+            z-index: 1500;
+            min-width: 400px;
+            animation: flashPulse 1.5s infinite, slideDown 0.5s ease-out;
+            border: 3px solid #fbbf24;
+        }
+        
+        @keyframes flashPulse {
+            0%, 100% { 
+                box-shadow: 0 10px 40px rgba(239, 68, 68, 0.5);
+                transform: translateX(-50%) scale(1);
+            }
+            50% { 
+                box-shadow: 0 10px 60px rgba(239, 68, 68, 0.8);
+                transform: translateX(-50%) scale(1.02);
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                top: -100px;
+                opacity: 0;
+            }
+            to {
+                top: 5rem;
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                top: 5rem;
+                opacity: 1;
+            }
+            to {
+                top: -100px;
+                opacity: 0;
+            }
+        }
+        
+        .flash-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .flash-icon {
+            font-size: 2rem;
+            animation: flashRotate 2s linear infinite;
+        }
+        
+        @keyframes flashRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .flash-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .flash-content {
+            margin-bottom: 1rem;
+        }
+        
+        .flash-stock {
+            font-size: 1.75rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+        
+        .flash-discount {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+        
+        .flash-timer-bar {
+            background: rgba(0, 0, 0, 0.3);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.75rem;
+        }
+        
+        .flash-timer-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+            transition: width 1s linear;
+        }
+        
+        .flash-timer-text {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #fbbf24;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .flash-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #000;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 900;
+            font-size: 1.125rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+        }
+        
+        .flash-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(251, 191, 36, 0.6);
+        }
+        
+        .flash-btn:active {
+            transform: translateY(0);
+        }
+        
         @media (max-width: 640px) {
             .welcome-card {
                 padding: 2rem 1.5rem;
@@ -1671,6 +2175,16 @@
             
             .achievements-grid {
                 grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+            
+            .wheel-container {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .flash-event-banner {
+                min-width: 90%;
+                padding: 1rem 1.5rem;
             }
         }
     </style>
@@ -1705,6 +2219,15 @@
                         class="form-input" 
                         placeholder="Kullanıcı adınızı girin"
                     >
+                </div>
+                
+                <div class="form-group" style="margin-top: 0.75rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" id="rememberMe" style="width: 18px; height: 18px; cursor: pointer;">
+                        <span style="font-size: 0.875rem; color: var(--text-secondary);">
+                            🔒 Beni Hatırla (Otomatik Giriş)
+                        </span>
+                    </label>
                 </div>
                 
                 <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="app.login()">
@@ -1798,6 +2321,10 @@
                         <div class="logo-text">
                             <div class="logo-title">Borsa İstanbul</div>
                             <div class="logo-subtitle">Trading Platform • Powered by <span class="xarali-badge">XarAli Yazılım A.Ş.</span></div>
+                            <div class="live-indicator" id="onlineCounter" style="margin-top: 0.5rem;">
+                                <div class="live-dot"></div>
+                                <span>Bağlanıyor...</span>
+                            </div>
                         </div>
                     </div>
                     <div class="user-info">
@@ -1805,6 +2332,12 @@
                         <div class="user-details">
                             <h3 id="userName">Kullanıcı</h3>
                             <div class="user-rank" id="userRank">🏆 Sıralama: #1</div>
+                            <div style="margin-top: 0.5rem;">
+                                <div class="level-badge" id="userLevel">Lv.1 Acemi Yatırımcı</div>
+                                <div class="xp-bar">
+                                    <div class="xp-bar-fill" id="userXP" style="width: 0%"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="header-actions">
@@ -1849,8 +2382,10 @@
                 <button class="tab" onclick="app.switchTab(1)">💼 Portföy</button>
                 <button class="tab" onclick="app.switchTab(2)">🏆 Liderlik</button>
                 <button class="tab" onclick="app.switchTab(3)">📰 Aktiviteler</button>
-                <button class="tab" onclick="app.switchTab(4)">⭐ İzleme</button>
-                <button class="tab" onclick="app.switchTab(5)">🎖️ Başarımlar</button>
+                <button class="tab" onclick="app.switchTab(4)">🎖️ Başarımlar</button>
+                <button class="tab" onclick="app.switchTab(5)">📡 Haberler</button>
+                <button class="tab" onclick="app.switchTab(6)">🎯 Görevler</button>
+                <button class="tab" onclick="app.switchTab(7)">🎰 Şans Çarkı</button>
             </nav>
             
             <!-- Tab: Market -->
@@ -1949,16 +2484,8 @@
                 </div>
             </div>
             
-            <!-- Tab: Watchlist -->
-            <div class="tab-content" id="tab4">
-                <div class="panel">
-                    <h2 class="panel-title">⭐ İzleme Listesi</h2>
-                    <div id="watchlistContent"></div>
-                </div>
-            </div>
-            
             <!-- Tab: Achievements -->
-            <div class="tab-content" id="tab5">
+            <div class="tab-content" id="tab4">
                 <div class="panel">
                     <h2 class="panel-title">🎖️ Başarımlar</h2>
                     <p class="text-muted" style="font-size: 0.875rem; margin-bottom: 1.5rem;">
@@ -1981,6 +2508,90 @@
                     </div>
                     
                     <div class="achievements-grid" id="achievementsGrid"></div>
+                </div>
+            </div>
+            
+            <!-- Tab: News -->
+            <div class="tab-content" id="tab5">
+                <div class="panel">
+                    <h2 class="panel-title">📡 Borsa Haberleri</h2>
+                    <p class="text-muted" style="font-size: 0.875rem; margin-bottom: 1.5rem;">
+                        Canlı borsa haberleri - Haberler 10 saniye sonra piyasayı etkiler! ⚡
+                    </p>
+                    
+                    <div class="market-stats" style="margin-bottom: 1.5rem;">
+                        <div class="market-stat">
+                            <div class="market-stat-value" id="newsCount">0</div>
+                            <div class="market-stat-label">📰 Haber Sayısı</div>
+                        </div>
+                        <div class="market-stat">
+                            <div class="market-stat-value text-success" id="positiveNews">0</div>
+                            <div class="market-stat-label">📈 Pozitif</div>
+                        </div>
+                        <div class="market-stat">
+                            <div class="market-stat-value text-danger" id="negativeNews">0</div>
+                            <div class="market-stat-label">📉 Negatif</div>
+                        </div>
+                    </div>
+                    
+                    <div id="newsFeed"></div>
+                </div>
+            </div>
+            
+            <!-- Tab: Daily Missions -->
+            <div class="tab-content" id="tab6">
+                <div class="panel">
+                    <h2 class="panel-title">🎯 Günlük Görevler</h2>
+                    <p class="text-muted" style="font-size: 0.875rem; margin-bottom: 1.5rem;">
+                        Görevleri tamamla, ödülleri kazan! Her gün yeni görevler! 🎁
+                    </p>
+                    
+                    <div class="market-stats" style="margin-bottom: 1.5rem;">
+                        <div class="market-stat">
+                            <div class="market-stat-value" id="missionsCompleted">0</div>
+                            <div class="market-stat-label">✅ Tamamlanan</div>
+                        </div>
+                        <div class="market-stat">
+                            <div class="market-stat-value" id="missionsTotal">0</div>
+                            <div class="market-stat-label">📋 Toplam</div>
+                        </div>
+                        <div class="market-stat">
+                            <div class="market-stat-value text-success" id="missionsRewards">0₺</div>
+                            <div class="market-stat-label">💰 Kazanılan</div>
+                        </div>
+                    </div>
+                    
+                    <div id="missionsList"></div>
+                </div>
+            </div>
+            
+            <!-- Tab: Lucky Wheel -->
+            <div class="tab-content" id="tab7">
+                <div class="panel">
+                    <h2 class="panel-title">🎰 Şans Çarkı</h2>
+                    <p class="text-muted" style="font-size: 0.875rem; margin-bottom: 1.5rem;">
+                        Günde 1 kez bedava çevir, muhteşem ödüller kazan! 🎁
+                    </p>
+                    
+                    <div class="wheel-container">
+                        <div class="wheel-pointer"></div>
+                        <div class="wheel" id="wheelElement"></div>
+                        <div class="wheel-center" onclick="app.spinWheel()">
+                            🎰
+                        </div>
+                    </div>
+                    
+                    <div class="wheel-info">
+                        <div class="wheel-spins-left" id="wheelSpinsLeft">Kalan Çevirme: 1</div>
+                        <div class="wheel-next-spin" id="wheelNextSpin"></div>
+                    </div>
+                    
+                    <div class="wheel-prizes-list">
+                        <div class="wheel-prize-item">💰 5.000₺ - 50.000₺</div>
+                        <div class="wheel-prize-item">⚡ 200 XP Bonus</div>
+                        <div class="wheel-prize-item">🎁 10 Bedava İşlem</div>
+                        <div class="wheel-prize-item">🏆 JACKPOT 500K₺!</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2094,12 +2705,60 @@
     <script>
         'use strict';
         
+        // ========================================
+        // 🔥 FIREBASE MULTIPLAYER CONFIGURATION
+        // ========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyASCeVzpEOhDCHyWTeza7Rnbm4U8EUc5QE",
+            authDomain: "stokdepo-52630.firebaseapp.com",
+            databaseURL: "https://stokdepo-52630-default-rtdb.firebaseio.com",
+            projectId: "stokdepo-52630",
+            storageBucket: "stokdepo-52630.firebasestorage.app",
+            messagingSenderId: "698156957113",
+            appId: "1:698156957113:web:8c89b3ab985da8d59e0a68",
+            measurementId: "G-LXX9EWJ7XC"
+        };
+        
+        // Firebase'i başlat
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        
         const app = {
             COMMISSION_RATE: 0.0015,
             BSMV_RATE: 0.10,
             KDV_RATE: 0.20,
             XARALI_RATE: 0.0005,
             INITIAL_CASH: 100000,
+            
+            // Firebase Multiplayer Variables
+            firebaseUserId: null,
+            onlineUsersCount: 0,
+            firebaseLeaderboardRef: null,
+            firebaseOnlineRef: null,
+            firebaseActivitiesRef: null,
+            
+            // 🎯 DAILY MISSIONS (Günlük Görevler)
+            dailyMissions: [],
+            lastMissionReset: null,
+            
+            // 🎰 LUCKY WHEEL (Şans Çarkı)
+            lastWheelSpin: null,
+            wheelPrizes: [
+                { type: 'cash', amount: 5000, label: '5K₺', color: '#22c55e' },
+                { type: 'cash', amount: 10000, label: '10K₺', color: '#3b82f6' },
+                { type: 'cash', amount: 25000, label: '25K₺', color: '#8b5cf6' },
+                { type: 'cash', amount: 50000, label: '50K₺', color: '#f59e0b' },
+                { type: 'xp', amount: 200, label: '200 XP', color: '#6366f1' },
+                { type: 'commission', amount: 10, label: 'Bedava 10 İşlem', color: '#ec4899' },
+                { type: 'cash', amount: 15000, label: '15K₺', color: '#10b981' },
+                { type: 'jackpot', amount: 500000, label: 'JACKPOT!', color: '#ffd700' }
+            ],
+            freeCommissionTrades: 0,
+            isSpinning: false,
+            
+            // ⚡ FLASH EVENTS (Flash Olaylar)
+            flashEvent: null,
+            flashEventTimer: null,
             
             currentUser: null,
             users: [],
@@ -2161,6 +2820,76 @@
             ],
             totalAchievementRewards: 0,
             
+            // LEVEL SYSTEM
+            userLevel: 1,
+            userXP: 0,
+            xpPerTrade: 10,
+            xpPerProfit: 5,
+            levels: [
+                {level:1, xpNeeded:0, title:'Acemi Yatırımcı', benefits:[]},
+                {level:2, xpNeeded:100, title:'Başlangıç Trader', benefits:['Komisyon -%5']},
+                {level:3, xpNeeded:300, title:'Deneyimli Trader', benefits:['Komisyon -%10', 'AI Sinyaller']},
+                {level:4, xpNeeded:600, title:'Profesyonel', benefits:['Komisyon -%15', 'Banka Tavsiyeleri']},
+                {level:5, xpNeeded:1000, title:'VIP Trader', benefits:['Komisyon -%20', '⭐ XRALI Erişimi']},
+                {level:6, xpNeeded:1500, title:'Usta Yatırımcı', benefits:['Komisyon -%25', 'Premium Haberler']},
+                {level:7, xpNeeded:2500, title:'Efsane', benefits:['Komisyon -%30', 'Öncelikli Destek']}
+            ],
+            
+            // NEWS SYSTEM
+            news: [],
+            newsId: 0,
+            newsEffects: [],
+            newsTemplates: {
+                'Finans': [
+                    {type:'positive',text:'[STOCK] bankası dijital bankacılık yatırımlarını artırıyor!',impact:3},
+                    {type:'positive',text:'[STOCK] için analistlerden yükseltme geldi!',impact:2.5},
+                    {type:'negative',text:'[STOCK] karını açıkladı, beklentilerin altında kaldı',impact:-2},
+                    {type:'negative',text:'[STOCK] hissesinde kar satışları başladı',impact:-1.5}
+                ],
+                'Teknoloji': [
+                    {type:'positive',text:'[STOCK] yapay zeka alanında yeni ürün lansmanı yaptı!',impact:4},
+                    {type:'positive',text:'[STOCK] dev bir teknoloji şirketiyle anlaşma imzaladı!',impact:3.5},
+                    {type:'negative',text:'[STOCK] siber güvenlik ihlali yaşadı',impact:-3},
+                    {type:'negative',text:'[STOCK] ürün lansmanını erteledi',impact:-2}
+                ],
+                'Enerji': [
+                    {type:'positive',text:'Ham petrol fiyatları yükseldi, [SECTOR] sektörü kazançlı!',impact:2.5},
+                    {type:'positive',text:'[STOCK] yenilenebilir enerji yatırımı açıkladı',impact:3},
+                    {type:'negative',text:'Enerji fiyatlarında düşüş, [SECTOR] sektörü baskı altında',impact:-2},
+                    {type:'negative',text:'[STOCK] rafineri arızası yaşandı',impact:-2.5}
+                ],
+                'Holding': [
+                    {type:'positive',text:'[STOCK] yeni sektöre giriş yapıyor!',impact:2},
+                    {type:'positive',text:'[STOCK] dev satın alma gerçekleştirdi',impact:3.5},
+                    {type:'negative',text:'[STOCK] şirketinden olumsuz yönetim haberleri',impact:-2},
+                    {type:'negative',text:'[STOCK] beklentilerin altında büyüdü',impact:-1.5}
+                ],
+                'Perakende': [
+                    {type:'positive',text:'[STOCK] yeni mağaza açılışları hızlandı!',impact:2},
+                    {type:'positive',text:'E-ticaret patlaması [SECTOR] sektörünü destekliyor',impact:2.5},
+                    {type:'negative',text:'[STOCK] karlılık marjları daralıyor',impact:-1.5},
+                    {type:'negative',text:'Perakende sektöründe talep düşüşü, [SECTOR] etkilendi',impact:-2}
+                ],
+                'Otomotiv': [
+                    {type:'positive',text:'[STOCK] elektrikli araç üretimine başlıyor!',impact:4},
+                    {type:'positive',text:'[STOCK] ihracat rekorları kırıyor',impact:3},
+                    {type:'negative',text:'[STOCK] üretim kapasitesini düşürdü',impact:-2.5},
+                    {type:'negative',text:'Otomotiv sektöründe çip krizi, [SECTOR] etkilendi',impact:-2}
+                ],
+                'Gıda': [
+                    {type:'positive',text:'[STOCK] yeni ürün gamı ile büyümeye devam ediyor',impact:2},
+                    {type:'positive',text:'[STOCK] uluslararası pazarlara açıldı',impact:2.5},
+                    {type:'negative',text:'Gıda fiyatları maliyetleri artırdı, [SECTOR] baskı altında',impact:-1.5},
+                    {type:'negative',text:'[STOCK] geri çağırma kararı aldı',impact:-3}
+                ],
+                'default': [
+                    {type:'positive',text:'[SECTOR] sektörü yatırımcıların gözdesi oldu!',impact:2},
+                    {type:'positive',text:'[STOCK] pozitif haberlerle öne çıkıyor',impact:2},
+                    {type:'negative',text:'[SECTOR] sektöründe genel gerileme var',impact:-1.5},
+                    {type:'negative',text:'[STOCK] hissesinde satış baskısı',impact:-1.5}
+                ]
+            },
+            
             formatMoney(amount) {
                 return new Intl.NumberFormat('tr-TR', {
                     style: 'currency',
@@ -2176,8 +2905,685 @@
                 return num.toFixed(0);
             },
             
+            // ========================================
+            // 🔥 FIREBASE MULTIPLAYER FUNCTIONS
+            // ========================================
+            
+            initFirebaseMultiplayer() {
+                if (!this.currentUser) return;
+                
+                // Unique Firebase ID oluştur
+                this.firebaseUserId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                
+                // Online presence sistemi
+                this.setupOnlinePresence();
+                
+                // Liderlik tablosu senkronizasyonu
+                this.setupLeaderboardSync();
+                
+                // Aktivite feed senkronizasyonu
+                this.setupActivitySync();
+                
+                console.log('🔥 Firebase Multiplayer aktif!');
+            },
+            
+            setupOnlinePresence() {
+                // Online kullanıcılar referansı
+                this.firebaseOnlineRef = database.ref('online/' + this.firebaseUserId);
+                
+                // Kullanıcıyı online olarak işaretle
+                this.firebaseOnlineRef.set({
+                    username: this.currentUser.username,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP,
+                    totalValue: this.currentUser.totalValue
+                });
+                
+                // Disconnect olduğunda temizle
+                this.firebaseOnlineRef.onDisconnect().remove();
+                
+                // Online kullanıcı sayısını dinle
+                database.ref('online').on('value', (snapshot) => {
+                    this.onlineUsersCount = snapshot.exists() ? snapshot.numChildren() : 0;
+                    this.updateOnlineCounter();
+                });
+                
+                // Her 30 saniyede bir timestamp güncelle (heartbeat)
+                setInterval(() => {
+                    if (this.firebaseOnlineRef) {
+                        this.firebaseOnlineRef.update({
+                            timestamp: firebase.database.ServerValue.TIMESTAMP,
+                            totalValue: this.currentUser.totalValue
+                        });
+                    }
+                }, 30000);
+            },
+            
+            setupLeaderboardSync() {
+                // Liderlik tablosu referansı
+                this.firebaseLeaderboardRef = database.ref('leaderboard');
+                
+                // Kendi skorunu kaydet
+                this.updateFirebaseLeaderboard();
+                
+                // Liderlik tablosunu dinle
+                this.firebaseLeaderboardRef.orderByChild('totalValue').limitToLast(50).on('value', (snapshot) => {
+                    const firebaseUsers = [];
+                    snapshot.forEach((child) => {
+                        firebaseUsers.push({
+                            ...child.val(),
+                            firebaseId: child.key
+                        });
+                    });
+                    
+                    // Firebase kullanıcılarını local users'a merge et
+                    firebaseUsers.forEach(fbUser => {
+                        const existingUser = this.users.find(u => u.username === fbUser.username);
+                        if (!existingUser && fbUser.username !== this.currentUser.username) {
+                            // Yeni remote kullanıcı
+                            this.users.push({
+                                username: fbUser.username,
+                                cash: fbUser.cash || this.INITIAL_CASH,
+                                portfolio: fbUser.portfolio || {},
+                                totalValue: fbUser.totalValue || this.INITIAL_CASH,
+                                bot: false,
+                                remote: true,
+                                firebaseId: fbUser.firebaseId
+                            });
+                        } else if (existingUser && existingUser.remote) {
+                            // Mevcut remote kullanıcıyı güncelle
+                            existingUser.totalValue = fbUser.totalValue;
+                            existingUser.cash = fbUser.cash;
+                        }
+                    });
+                    
+                    this.updateLeaderboard();
+                });
+            },
+            
+            setupActivitySync() {
+                // Aktivite feed referansı
+                this.firebaseActivitiesRef = database.ref('activities');
+                
+                // Son 50 aktiviteyi dinle
+                this.firebaseActivitiesRef.limitToLast(50).on('child_added', (snapshot) => {
+                    const activity = snapshot.val();
+                    
+                    // Kendi aktivitemiz değilse ekle
+                    if (activity.userId !== this.firebaseUserId) {
+                        const exists = this.activities.find(a => 
+                            a.timestamp === activity.timestamp && 
+                            a.user === activity.user
+                        );
+                        
+                        if (!exists) {
+                            this.activities.unshift({
+                                user: activity.user,
+                                action: activity.action,
+                                stock: activity.stock,
+                                amount: activity.amount,
+                                price: activity.price,
+                                type: activity.type,
+                                time: activity.time,
+                                timestamp: activity.timestamp,
+                                remote: true
+                            });
+                            
+                            if (this.activities.length > 50) this.activities.pop();
+                            this.renderActivities();
+                            
+                            // Bildirim göster (sadece son 10 saniye içindekiler için)
+                            if (Date.now() - activity.timestamp < 10000) {
+                                const icon = activity.type === 'buy' ? '🛒' : '💸';
+                                this.showNotification(
+                                    `${icon} ${activity.user}: ${activity.amount} lot ${activity.stock} ${activity.type === 'buy' ? 'aldı' : 'sattı'}`,
+                                    'info'
+                                );
+                            }
+                        }
+                    }
+                });
+            },
+            
+            updateFirebaseLeaderboard() {
+                if (!this.firebaseLeaderboardRef || !this.currentUser) return;
+                
+                const userRef = this.firebaseLeaderboardRef.child(this.firebaseUserId);
+                userRef.set({
+                    username: this.currentUser.username,
+                    totalValue: this.currentUser.totalValue,
+                    cash: this.currentUser.cash,
+                    portfolio: this.currentUser.portfolio,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+                
+                // Disconnect olduğunda temizle
+                userRef.onDisconnect().remove();
+            },
+            
+            pushActivityToFirebase(user, action, stock, amount, price, type) {
+                if (!this.firebaseActivitiesRef) return;
+                
+                this.firebaseActivitiesRef.push({
+                    userId: this.firebaseUserId,
+                    user: user,
+                    action: action,
+                    stock: stock,
+                    amount: amount,
+                    price: price,
+                    type: type,
+                    time: new Date().toLocaleTimeString('tr-TR'),
+                    timestamp: Date.now()
+                });
+            },
+            
+            updateOnlineCounter() {
+                const counterEl = document.getElementById('onlineCounter');
+                if (counterEl) {
+                    counterEl.innerHTML = `
+                        <div class="live-dot"></div>
+                        <span>${this.onlineUsersCount} oyuncu online</span>
+                    `;
+                }
+            },
+            
+            disconnectFirebase() {
+                if (this.firebaseOnlineRef) {
+                    this.firebaseOnlineRef.remove();
+                }
+                if (this.firebaseLeaderboardRef) {
+                    database.ref('leaderboard/' + this.firebaseUserId).remove();
+                }
+            },
+            
+            // ========================================
+            // END FIREBASE MULTIPLAYER FUNCTIONS
+            // ========================================
+            
+            // ========================================
+            // 🎯 DAILY MISSIONS SYSTEM
+            // ========================================
+            
+            initDailyMissions() {
+                // Günlük reset kontrolü
+                const today = new Date().toDateString();
+                if (this.lastMissionReset !== today) {
+                    this.resetDailyMissions();
+                    this.lastMissionReset = today;
+                }
+                
+                this.renderMissions();
+            },
+            
+            resetDailyMissions() {
+                this.dailyMissions = [
+                    {
+                        id: 'trade_5',
+                        icon: '📊',
+                        title: '5 İşlem Yap',
+                        desc: 'Bugün 5 alım veya satım işlemi gerçekleştir',
+                        progress: 0,
+                        target: 5,
+                        reward: 5000,
+                        rewardType: 'cash',
+                        completed: false
+                    },
+                    {
+                        id: 'buy_stocks',
+                        icon: '🛒',
+                        title: '3 Farklı Hisse Al',
+                        desc: 'Farklı 3 hisseden en az 1\'er lot al',
+                        progress: 0,
+                        target: 3,
+                        reward: 7500,
+                        rewardType: 'cash',
+                        completed: false
+                    },
+                    {
+                        id: 'profit_10k',
+                        icon: '💰',
+                        title: '10K Kar Yap',
+                        desc: 'Bugün toplam 10.000₺ kar et',
+                        progress: 0,
+                        target: 10000,
+                        reward: 15000,
+                        rewardType: 'cash',
+                        completed: false
+                    },
+                    {
+                        id: 'xp_gain',
+                        icon: '⚡',
+                        title: '100 XP Kazan',
+                        desc: 'İşlem yaparak 100 XP topla',
+                        progress: 0,
+                        target: 100,
+                        reward: 300,
+                        rewardType: 'xp',
+                        completed: false
+                    },
+                    {
+                        id: 'volume_100k',
+                        icon: '📈',
+                        title: '100K Hacim',
+                        desc: 'Toplam 100.000₺ değerinde işlem yap',
+                        progress: 0,
+                        target: 100000,
+                        reward: 10000,
+                        rewardType: 'cash',
+                        completed: false
+                    }
+                ];
+            },
+            
+            checkMissionProgress(missionType, value = 1) {
+                if (!this.dailyMissions || this.dailyMissions.length === 0) return;
+                
+                this.dailyMissions.forEach(mission => {
+                    if (mission.completed) return;
+                    
+                    let shouldUpdate = false;
+                    
+                    switch(missionType) {
+                        case 'trade':
+                            if (mission.id === 'trade_5') {
+                                mission.progress += 1;
+                                shouldUpdate = true;
+                            }
+                            break;
+                        case 'buy_stock':
+                            if (mission.id === 'buy_stocks') {
+                                mission.progress = value; // value = unique stocks count
+                                shouldUpdate = true;
+                            }
+                            break;
+                        case 'profit':
+                            if (mission.id === 'profit_10k') {
+                                const totalValue = this.currentUser?.totalValue || this.INITIAL_CASH;
+                                const profit = Math.max(0, totalValue - this.INITIAL_CASH);
+                                mission.progress = profit;
+                                shouldUpdate = true;
+                            }
+                            break;
+                        case 'xp':
+                            if (mission.id === 'xp_gain') {
+                                mission.progress = this.userXP;
+                                shouldUpdate = true;
+                            }
+                            break;
+                        case 'volume':
+                            if (mission.id === 'volume_100k') {
+                                mission.progress += value;
+                                shouldUpdate = true;
+                            }
+                            break;
+                    }
+                    
+                    if (shouldUpdate && mission.progress >= mission.target && !mission.completed) {
+                        this.completeMission(mission);
+                    }
+                });
+                
+                this.renderMissions();
+            },
+            
+            completeMission(mission) {
+                mission.completed = true;
+                mission.progress = mission.target;
+                
+                // Ödül ver
+                if (mission.rewardType === 'cash') {
+                    this.currentUser.cash += mission.reward;
+                    this.showNotification(`🎯 Görev Tamamlandı! +${this.formatMoney(mission.reward)}`, 'success');
+                } else if (mission.rewardType === 'xp') {
+                    this.addXP(mission.reward);
+                    this.showNotification(`🎯 Görev Tamamlandı! +${mission.reward} XP`, 'success');
+                }
+                
+                // Başarım popup
+                this.showMissionCompletePopup(mission);
+                
+                this.updateDisplay();
+                this.saveData();
+            },
+            
+            showMissionCompletePopup(mission) {
+                const popup = document.createElement('div');
+                popup.className = 'achievement-popup';
+                popup.innerHTML = `
+                    <div class="achievement-icon">${mission.icon}</div>
+                    <div class="achievement-title">GÖREV TAMAMLANDI!</div>
+                    <div class="achievement-desc">${mission.title}</div>
+                    <div class="achievement-reward">+${mission.rewardType === 'cash' ? this.formatMoney(mission.reward) : mission.reward + ' XP'}</div>
+                `;
+                
+                document.body.appendChild(popup);
+                setTimeout(() => popup.remove(), 4000);
+            },
+            
+            renderMissions() {
+                const list = document.getElementById('missionsList');
+                if (!list) return;
+                
+                const completed = this.dailyMissions.filter(m => m.completed).length;
+                const total = this.dailyMissions.length;
+                const totalRewards = this.dailyMissions
+                    .filter(m => m.completed && m.rewardType === 'cash')
+                    .reduce((sum, m) => sum + m.reward, 0);
+                
+                document.getElementById('missionsCompleted').textContent = completed;
+                document.getElementById('missionsTotal').textContent = total;
+                document.getElementById('missionsRewards').textContent = this.formatMoney(totalRewards);
+                
+                list.innerHTML = this.dailyMissions.map(mission => {
+                    const percent = Math.min(100, (mission.progress / mission.target) * 100);
+                    const progressText = mission.id === 'profit_10k' || mission.id === 'volume_100k' 
+                        ? `${this.formatMoney(mission.progress)} / ${this.formatMoney(mission.target)}`
+                        : `${Math.floor(mission.progress)} / ${mission.target}`;
+                    
+                    return `
+                        <div class="mission-card ${mission.completed ? 'completed' : ''}">
+                            <div class="mission-header">
+                                <div class="mission-icon">${mission.icon}</div>
+                                <div class="mission-reward">
+                                    ${mission.rewardType === 'cash' ? '💰 ' + this.formatMoney(mission.reward) : '⚡ ' + mission.reward + ' XP'}
+                                </div>
+                            </div>
+                            <div class="mission-title">${mission.title}</div>
+                            <div class="mission-desc">${mission.desc}</div>
+                            <div class="mission-progress-bar">
+                                <div class="mission-progress-fill" style="width: ${percent}%"></div>
+                            </div>
+                            <div style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.25rem;">
+                                ${mission.completed ? '✅ Tamamlandı!' : progressText}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            },
+            
+            // ========================================
+            // 🎰 LUCKY WHEEL SYSTEM
+            // ========================================
+            
+            initLuckyWheel() {
+                this.renderWheel();
+                this.updateWheelStatus();
+            },
+            
+            renderWheel() {
+                const wheel = document.getElementById('wheelElement');
+                if (!wheel) return;
+                
+                const segmentAngle = 360 / this.wheelPrizes.length;
+                
+                wheel.innerHTML = this.wheelPrizes.map((prize, index) => {
+                    const rotation = segmentAngle * index;
+                    return `
+                        <div class="wheel-segment" style="
+                            background: ${prize.color};
+                            transform: rotate(${rotation}deg);
+                        ">
+                            <span style="
+                                transform: rotate(${segmentAngle/2}deg) translateY(-60%);
+                                display: block;
+                            ">${prize.label}</span>
+                        </div>
+                    `;
+                }).join('');
+            },
+            
+            updateWheelStatus() {
+                const today = new Date().toDateString();
+                const canSpin = this.lastWheelSpin !== today;
+                
+                const spinsLeft = document.getElementById('wheelSpinsLeft');
+                const nextSpin = document.getElementById('wheelNextSpin');
+                
+                if (spinsLeft) {
+                    spinsLeft.textContent = canSpin ? '🎁 Bedava Çevirme Hakkın Var!' : '❌ Bugünlük Çevirme Hakkın Bitti';
+                    spinsLeft.style.color = canSpin ? 'var(--success)' : 'var(--danger)';
+                }
+                
+                if (nextSpin && !canSpin) {
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    tomorrow.setHours(0, 0, 0, 0);
+                    const hours = Math.floor((tomorrow - new Date()) / 3600000);
+                    nextSpin.textContent = `Yeni çevirme ${hours} saat sonra`;
+                }
+            },
+            
+            spinWheel() {
+                const today = new Date().toDateString();
+                const canSpin = this.lastWheelSpin !== today;
+                
+                if (!canSpin) {
+                    this.showNotification('Bugünlük çevirme hakkın bitti! Yarın tekrar dene', 'warning');
+                    return;
+                }
+                
+                if (this.isSpinning) {
+                    return;
+                }
+                
+                this.isSpinning = true;
+                this.lastWheelSpin = today;
+                
+                // Rastgele ödül seç
+                const prizeIndex = Math.floor(Math.random() * this.wheelPrizes.length);
+                const prize = this.wheelPrizes[prizeIndex];
+                
+                // Çarkı döndür
+                const wheel = document.getElementById('wheelElement');
+                const segmentAngle = 360 / this.wheelPrizes.length;
+                const targetRotation = 360 * 5 + (prizeIndex * segmentAngle) + (segmentAngle / 2); // 5 tur + hedef
+                
+                wheel.style.transform = `rotate(${targetRotation}deg)`;
+                
+                // Ödülü 4 saniye sonra ver
+                setTimeout(() => {
+                    this.giveWheelPrize(prize);
+                    this.isSpinning = false;
+                    this.updateWheelStatus();
+                    this.saveData();
+                    
+                    // Çarkı sıfırla (sonraki spin için)
+                    setTimeout(() => {
+                        wheel.style.transition = 'none';
+                        wheel.style.transform = 'rotate(0deg)';
+                        setTimeout(() => {
+                            wheel.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+                        }, 50);
+                    }, 1000);
+                }, 4000);
+            },
+            
+            giveWheelPrize(prize) {
+                let message = '';
+                
+                switch(prize.type) {
+                    case 'cash':
+                        this.currentUser.cash += prize.amount;
+                        message = `🎰 Tebrikler! ${this.formatMoney(prize.amount)} kazandın!`;
+                        if (prize.amount >= 100000) {
+                            message += ' 🎊 JACKPOT! 🎊';
+                        }
+                        break;
+                    case 'xp':
+                        this.addXP(prize.amount);
+                        message = `🎰 Tebrikler! ${prize.amount} XP kazandın!`;
+                        break;
+                    case 'commission':
+                        this.freeCommissionTrades = prize.amount;
+                        message = `🎰 Tebrikler! ${prize.amount} bedava işlem kazandın!`;
+                        break;
+                }
+                
+                this.showNotification(message, 'success');
+                
+                // Büyük popup
+                const popup = document.createElement('div');
+                popup.className = 'achievement-popup';
+                popup.innerHTML = `
+                    <div class="achievement-icon">🎰</div>
+                    <div class="achievement-title">ŞANS ÇARKI!</div>
+                    <div class="achievement-desc">${prize.label}</div>
+                    <div class="achievement-reward">${message.replace('🎰 Tebrikler! ', '')}</div>
+                `;
+                
+                document.body.appendChild(popup);
+                setTimeout(() => popup.remove(), 5000);
+                
+                this.updateDisplay();
+            },
+            
+            // ========================================
+            // ⚡ FLASH EVENTS SYSTEM
+            // ========================================
+            
+            startFlashEvents() {
+                // 2-5 dakikada bir rastgele flash event
+                setInterval(() => {
+                    if (!this.flashEvent && Math.random() < 0.3) {
+                        this.triggerFlashEvent();
+                    }
+                }, 60000); // Her dakika kontrol et
+            },
+            
+            triggerFlashEvent() {
+                // Rastgele bir hisse seç
+                const stock = this.stocks[Math.floor(Math.random() * this.stocks.length)];
+                
+                // Flash event tipleri
+                const eventTypes = [
+                    { type: 'discount', text: '🔥 SÜPERİNDİRİM!', discount: 0.2, desc: '%20 İNDİRİMLİ!' },
+                    { type: 'discount', text: '⚡ HIZLI FIR', discount: 0.3, desc: '%30 İNDİRİM!' },
+                    { type: 'bonus', text: '💎 BONUS FIRSAT!', discount: 0.15, desc: '+%15 Bedava Hisse!' }
+                ];
+                
+                const eventType = eventTypes[Math.floor(Math.random() * eventTypes.length)];
+                
+                this.flashEvent = {
+                    stock: stock,
+                    type: eventType.type,
+                    text: eventType.text,
+                    desc: eventType.desc,
+                    discount: eventType.discount,
+                    originalPrice: stock.price,
+                    flashPrice: stock.price * (1 - eventType.discount),
+                    timeLeft: 25,
+                    startTime: Date.now()
+                };
+                
+                // Flash fiyatı uygula
+                stock.price = this.flashEvent.flashPrice;
+                
+                this.showFlashEventBanner();
+                this.startFlashTimer();
+                
+                this.showNotification(`${eventType.text} ${stock.symbol} - ${eventType.desc}`, 'warning');
+            },
+            
+            showFlashEventBanner() {
+                const banner = document.createElement('div');
+                banner.id = 'flashEventBanner';
+                banner.className = 'flash-event-banner';
+                banner.innerHTML = `
+                    <button onclick="app.closeFlashEvent()" style="
+                        position: absolute;
+                        top: 0.75rem;
+                        right: 0.75rem;
+                        background: rgba(0, 0, 0, 0.3);
+                        border: none;
+                        color: white;
+                        width: 32px;
+                        height: 32px;
+                        border-radius: 50%;
+                        font-size: 1.25rem;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: all 0.2s;
+                        z-index: 10;
+                    " onmouseover="this.style.background='rgba(0,0,0,0.5)'" onmouseout="this.style.background='rgba(0,0,0,0.3)'">✕</button>
+                    <div class="flash-header">
+                        <div class="flash-icon">⚡</div>
+                        <div class="flash-title">${this.flashEvent.text}</div>
+                    </div>
+                    <div class="flash-content">
+                        <div class="flash-stock">${this.flashEvent.stock.symbol} - ${this.flashEvent.stock.name}</div>
+                        <div class="flash-discount">${this.flashEvent.desc}</div>
+                    </div>
+                    <div class="flash-timer-bar">
+                        <div class="flash-timer-fill" id="flashTimerFill" style="width: 100%"></div>
+                    </div>
+                    <div class="flash-timer-text" id="flashTimerText">25 SANİYE!</div>
+                    <button class="flash-btn" onclick="app.openStock(${this.flashEvent.stock.id})">
+                        ⚡ HEMEN AL! ⚡
+                    </button>
+                `;
+                
+                document.body.appendChild(banner);
+            },
+            
+            startFlashTimer() {
+                this.flashEventTimer = setInterval(() => {
+                    this.flashEvent.timeLeft--;
+                    
+                    const timerText = document.getElementById('flashTimerText');
+                    const timerFill = document.getElementById('flashTimerFill');
+                    
+                    if (timerText) {
+                        timerText.textContent = this.flashEvent.timeLeft + ' SANİYE!';
+                    }
+                    
+                    if (timerFill) {
+                        const percent = (this.flashEvent.timeLeft / 25) * 100;
+                        timerFill.style.width = percent + '%';
+                    }
+                    
+                    if (this.flashEvent.timeLeft <= 0) {
+                        this.endFlashEvent();
+                    }
+                }, 1000);
+            },
+            
+            endFlashEvent() {
+                clearInterval(this.flashEventTimer);
+                
+                // Fiyatı geri döndür
+                this.flashEvent.stock.price = this.flashEvent.originalPrice;
+                
+                // Banner'ı kaldır
+                const banner = document.getElementById('flashEventBanner');
+                if (banner) {
+                    banner.style.animation = 'slideUp 0.5s ease-out';
+                    setTimeout(() => banner.remove(), 500);
+                }
+                
+                this.showNotification('⏰ Flash etkinlik sona erdi!', 'info');
+                this.flashEvent = null;
+            },
+            
+            closeFlashEvent() {
+                // Manuel kapatma - X butonuna basıldığında
+                if (this.flashEvent) {
+                    clearInterval(this.flashEventTimer);
+                    this.flashEvent.stock.price = this.flashEvent.originalPrice;
+                    
+                    const banner = document.getElementById('flashEventBanner');
+                    if (banner) {
+                        banner.style.animation = 'slideUp 0.5s ease-out';
+                        setTimeout(() => banner.remove(), 500);
+                    }
+                    
+                    this.flashEvent = null;
+                    this.showNotification('✕ Flash event kapatıldı', 'info');
+                }
+            },
+            
             calculateAISignal(stock) {
-                // AI algoritması - fiyat momentum + sektör momentum + teknik göstergeler
+                // AI algoritması - GELİŞTİRİLMİŞ! Daha aktif sinyal
                 const priceChange = stock.change;
                 const sectorMomentum = this.sectorMomentum[stock.sector] || 0;
                 
@@ -2186,25 +3592,37 @@
                 const avgRecent = recentHistory.reduce((a, b) => a + b, 0) / recentHistory.length;
                 const trendStrength = ((stock.price - avgRecent) / avgRecent) * 100;
                 
-                // AI skoru hesapla
-                const aiScore = (priceChange * 0.4) + (sectorMomentum * 0.3) + (trendStrength * 0.3);
+                // Volume bazlı momentum (yüksek volume = güçlü sinyal)
+                const volumeFactor = stock.volume > 500000 ? 0.5 : 0;
+                
+                // AI skoru hesapla - DAHA HASSAS!
+                const aiScore = (priceChange * 0.5) + (sectorMomentum * 0.4) + (trendStrength * 0.4) + volumeFactor;
                 
                 let signal = '';
                 let strength = 0;
                 let reason = '';
                 
-                if (aiScore > 2) {
+                // DÜŞÜRÜLMÜŞ EŞİK DEĞERLERİ - Daha sık sinyal
+                if (aiScore > 1.2) { // Önceden 2'ydi
                     signal = 'BUY';
-                    strength = Math.min(5, Math.floor(aiScore / 1.5));
-                    reason = 'Güçlü yükseliş trendi tespit edildi. Sektör momentumu pozitif.';
-                } else if (aiScore < -2) {
+                    strength = Math.min(5, Math.floor(Math.abs(aiScore) / 0.8));
+                    reason = '📈 Yükseliş trendi! AI önerisi: AL';
+                } else if (aiScore < -1.2) { // Önceden -2'ydi  
                     signal = 'SELL';
-                    strength = Math.min(5, Math.floor(Math.abs(aiScore) / 1.5));
-                    reason = 'Düşüş trendi tespit edildi. Risk yönetimi önerisi.';
+                    strength = Math.min(5, Math.floor(Math.abs(aiScore) / 0.8));
+                    reason = '📉 Düşüş riski! AI önerisi: SAT';
+                } else if (aiScore > 0.5) {
+                    signal = 'BUY';
+                    strength = Math.min(3, Math.floor(Math.abs(aiScore) / 0.5));
+                    reason = '📊 Hafif yükseliş sinyali';
+                } else if (aiScore < -0.5) {
+                    signal = 'SELL';
+                    strength = Math.min(3, Math.floor(Math.abs(aiScore) / 0.5));
+                    reason = '⚠️ Dikkatli ol! Düşüş sinyali';
                 } else {
                     signal = 'NEUTRAL';
                     strength = 0;
-                    reason = 'Yatay seyir. Pozisyon bekleme önerisi.';
+                    reason = '⏸️ Bekle. Yatay seyir';
                 }
                 
                 stock.signal = signal;
@@ -2312,6 +3730,228 @@
                 this.renderAchievements();
             },
             
+            // LEVEL SYSTEM
+            addXP(amount) {
+                if (!this.currentUser) return;
+                
+                const oldLevel = this.userLevel;
+                this.userXP += amount;
+                
+                // Level up kontrolü
+                const currentLevel = this.levels.find(l => l.level === this.userLevel);
+                const nextLevel = this.levels.find(l => l.level === this.userLevel + 1);
+                
+                if (nextLevel && this.userXP >= nextLevel.xpNeeded) {
+                    this.userLevel++;
+                    const newLevel = this.levels.find(l => l.level === this.userLevel);
+                    
+                    // Seviye atlama popup'ı
+                    this.showNotification(`🎉 Seviye Atladın! ${newLevel.title}`, 'success');
+                    
+                    // Özel bildirimler
+                    if (this.userLevel === 2) {
+                        setTimeout(() => {
+                            this.showNotification('🎁 Komisyon indirimi kazandın! -%5', 'success');
+                        }, 1000);
+                    }
+                    
+                    if (this.userLevel === 5) {
+                        setTimeout(() => {
+                            this.showNotification('⭐ XRALI hissesine erişim açıldı!', 'success');
+                        }, 1000);
+                        setTimeout(() => {
+                            this.showNotification('💎 Artık VIP Trader\'sın!', 'success');
+                        }, 2000);
+                    }
+                }
+                
+                this.updateLevelDisplay();
+            },
+            
+            updateLevelDisplay() {
+                const levelBadge = document.getElementById('userLevel');
+                if (levelBadge) {
+                    const currentLevel = this.levels.find(l => l.level === this.userLevel);
+                    if (currentLevel) {
+                        levelBadge.textContent = `Lv.${this.userLevel} ${currentLevel.title}`;
+                    }
+                }
+                
+                const xpBar = document.getElementById('userXP');
+                if (xpBar) {
+                    const nextLevel = this.levels.find(l => l.level === this.userLevel + 1);
+                    const currentLevelData = this.levels.find(l => l.level === this.userLevel);
+                    if (currentLevelData) {
+                        const currentLevelXP = currentLevelData.xpNeeded;
+                        const xpForThisLevel = Math.max(0, this.userXP - currentLevelXP);
+                        const xpNeeded = nextLevel ? nextLevel.xpNeeded - currentLevelXP : 100;
+                        const percent = Math.min(100, (xpForThisLevel / xpNeeded) * 100);
+                        xpBar.style.width = percent + '%';
+                    }
+                }
+            },
+            
+            canBuyXRALI() {
+                return this.userLevel >= 5;
+            },
+            
+            // NEWS SYSTEM
+            generateNews() {
+                const sectors = [...new Set(this.stocks.map(s => s.sector))];
+                const randomSector = sectors[Math.floor(Math.random() * sectors.length)];
+                const sectorStocks = this.stocks.filter(s => s.sector === randomSector);
+                const randomStock = sectorStocks[Math.floor(Math.random() * sectorStocks.length)];
+                
+                const templates = this.newsTemplates[randomSector] || this.newsTemplates['default'];
+                const template = templates[Math.floor(Math.random() * templates.length)];
+                
+                const newsText = template.text
+                    .replace('[STOCK]', randomStock.symbol)
+                    .replace('[SECTOR]', randomSector);
+                
+                const news = {
+                    id: this.newsId++,
+                    text: newsText,
+                    type: template.type,
+                    sector: randomSector,
+                    stock: randomStock.symbol,
+                    impact: template.impact,
+                    time: new Date().toLocaleTimeString('tr-TR'),
+                    timestamp: Date.now(),
+                    effectTime: Date.now() + 10000, // 10 saniye sonra
+                    processed: false
+                };
+                
+                this.news.unshift(news);
+                if (this.news.length > 20) this.news.pop();
+                
+                // Etki zamanlaması
+                this.newsEffects.push(news);
+                
+                this.renderNews();
+            },
+            
+            processNewsEffects() {
+                const now = Date.now();
+                
+                this.newsEffects.forEach((news, index) => {
+                    if (news.processed) return;
+                    if (now < news.effectTime) return;
+                    
+                    // Sektörü etkile
+                    const affectedStocks = this.stocks.filter(s => s.sector === news.sector);
+                    
+                    affectedStocks.forEach(stock => {
+                        // Haber etkisi ekle
+                        const effectPercent = news.impact;
+                        stock.price = Math.max(1, stock.price * (1 + effectPercent / 100));
+                        stock.change += effectPercent;
+                    });
+                    
+                    news.processed = true;
+                    
+                    // Bildirim göster
+                    const icon = news.type === 'positive' ? '📈' : '📉';
+                    this.showNotification(`${icon} Haber Etkisi: ${news.sector} sektörü ${Math.abs(news.impact)}% ${news.type === 'positive' ? 'yükseldi' : 'düştü'}!`, 'info');
+                });
+                
+                // İşlenmiş haberleri temizle
+                this.newsEffects = this.newsEffects.filter(n => !n.processed || (now - n.timestamp) < 30000);
+            },
+            
+            renderNews() {
+                const feed = document.getElementById('newsFeed');
+                if (!feed) return;
+                
+                const newsCount = document.getElementById('newsCount');
+                const positiveNews = document.getElementById('positiveNews');
+                const negativeNews = document.getElementById('negativeNews');
+                
+                const positiveCount = this.news.filter(n => n.type === 'positive').length;
+                const negativeCount = this.news.filter(n => n.type === 'negative').length;
+                
+                if (newsCount) newsCount.textContent = this.news.length;
+                if (positiveNews) positiveNews.textContent = positiveCount;
+                if (negativeNews) negativeNews.textContent = negativeCount;
+                
+                if (this.news.length === 0) {
+                    feed.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">📡</div>
+                            <div>Haberler yükleniyor...</div>
+                            <div style="font-size: 0.875rem; color: var(--text-muted); margin-top: 0.5rem;">
+                                İlk haber 3-20 saniye içinde gelecek
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                feed.innerHTML = this.news.map(news => {
+                    const now = Date.now();
+                    const timeUntilEffect = Math.max(0, Math.ceil((news.effectTime - now) / 1000));
+                    const isActive = timeUntilEffect > 0 && !news.processed;
+                    const badgeText = news.type === 'positive' ? 'POZİTİF' : 'NEGATİF';
+                    const icon = news.type === 'positive' ? '📈' : '📉';
+                    
+                    // Hisseyi bul
+                    const stock = this.stocks.find(s => s.symbol === news.stock);
+                    const stockId = stock ? stock.id : null;
+                    
+                    return `
+                        <div class="news-item ${news.type}">
+                            <div class="news-header">
+                                <span class="news-badge ${news.type}">${badgeText}</span>
+                                ${isActive ? `<div class="news-timer active">⏱️ ${timeUntilEffect}s</div>` : '<div class="news-timer">✓ Etkili</div>'}
+                            </div>
+                            <div class="news-text">
+                                ${icon} ${news.text}
+                            </div>
+                            <div class="news-meta">
+                                <span>🏷️ ${news.sector}</span>
+                                <span class="news-impact">Etki: ${news.impact > 0 ? '+' : ''}${news.impact}%</span>
+                                <span>⏰ ${news.time}</span>
+                            </div>
+                            ${stockId ? `
+                                <button 
+                                    class="news-stock-btn" 
+                                    onclick="app.openStockFromNews(${stockId})"
+                                >
+                                    📊 ${news.stock} Hissesine Git →
+                                </button>
+                            ` : ''}
+                        </div>
+                    `;
+                }).join('');
+            },
+            
+            openStockFromNews(stockId) {
+                const stock = this.stocks.find(s => s.id === stockId);
+                
+                // XRALI kontrolü
+                if (stock && stock.isXarAli && !this.canBuyXRALI()) {
+                    const nextLevel = this.levels.find(l => l.level === 5);
+                    const xpNeeded = nextLevel.xpNeeded - this.userXP;
+                    
+                    this.showNotification(
+                        `🔒 ${stock.symbol} hissesi VIP üyeler için! Seviye 5'e ulaş. (${xpNeeded} XP kaldı)`,
+                        'warning'
+                    );
+                    
+                    // Yine de piyasa sekmesine git
+                    this.switchTab(0);
+                    return;
+                }
+                
+                // Piyasa sekmesine geç
+                this.switchTab(0);
+                // Kısa gecikme ile hisseyi aç (sekme geçişi için)
+                setTimeout(() => {
+                    this.openStock(stockId);
+                    this.showNotification(`📰 Haberden gelen hisse: ${stock.symbol}`, 'info');
+                }, 300);
+            },
+            
             unlockAchievement(ach) {
                 ach.unlocked = true;
                 ach.progress = ach.target;
@@ -2384,6 +4024,11 @@
             },
             
             calculateFees(amount) {
+                // 🎁 Bedava komisyon kontrolü
+                if (this.freeCommissionTrades > 0) {
+                    return { commission: 0, bsmv: 0, kdv: 0, xarali: 0, total: 0 };
+                }
+                
                 const commission = amount * this.COMMISSION_RATE;
                 const bsmv = commission * this.BSMV_RATE;
                 const kdv = commission * this.KDV_RATE;
@@ -2406,6 +4051,9 @@
                 
                 this.activities.unshift(activity);
                 if (this.activities.length > 50) this.activities.pop();
+                
+                // Firebase'e push et
+                this.pushActivityToFirebase(user, action, stock, amount, price, type);
                 
                 this.renderActivities();
             },
@@ -2458,6 +4106,7 @@
             
             login() {
                 const username = document.getElementById('loginUsername').value.trim();
+                const rememberMe = document.getElementById('rememberMe').checked;
                 
                 if (!username) {
                     this.showNotification('Kullanıcı adı boş olamaz', 'error');
@@ -2472,13 +4121,26 @@
                 }
                 
                 this.currentUser = user;
-                this.showNotification(`Tekrar hoş geldin ${username}!`);
+                
+                // Beni Hatırla özelliği
+                if (rememberMe) {
+                    localStorage.setItem('rememberedUser', username);
+                    this.showNotification(`Tekrar hoş geldin ${username}! Otomatik giriş aktif 🔒`);
+                } else {
+                    localStorage.removeItem('rememberedUser');
+                    this.showNotification(`Tekrar hoş geldin ${username}!`);
+                }
+                
                 this.startApp();
             },
             
             logout() {
                 if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
+                    // Firebase'den disconnect
+                    this.disconnectFirebase();
+                    
                     this.currentUser = null;
+                    localStorage.removeItem('rememberedUser'); // Beni hatırla'yı temizle
                     document.getElementById('welcomeScreen').style.display = 'flex';
                     document.getElementById('appContainer').classList.remove('active');
                     this.showNotification('Başarıyla çıkış yaptınız', 'info');
@@ -2497,12 +4159,30 @@
                     this.currentUser.portfolio = {};
                 }
                 
+                // 🔥 Firebase Multiplayer başlat
+                this.initFirebaseMultiplayer();
+                
+                // Level init
+                this.updateLevelDisplay();
+                
+                // 🎯 Günlük görevleri başlat
+                this.initDailyMissions();
+                
+                // 🎰 Şans çarkını başlat
+                this.initLuckyWheel();
+                
+                // ⚡ Flash olayları başlat
+                this.startFlashEvents();
+                
                 this.updateDisplay();
                 this.renderStocks();
                 this.updateLeaderboard();
                 this.renderActivities();
                 this.renderWatchlist();
                 this.renderPortfolio();
+                
+                // İlk haber üret
+                this.generateNews();
             },
             
             getSectorBadge(sector) {
@@ -2568,7 +4248,6 @@
                     if (stock.change < 0) falling++;
                     totalVol += stock.volume;
                     
-                    const isWatched = this.watchlist.includes(stock.id);
                     const changeClass = stock.change >= 0 ? 'text-success' : 'text-danger';
                     const changeIcon = stock.change >= 0 ? '▲' : '▼';
                     const sectorBadge = this.getSectorBadge(stock.sector);
@@ -2605,12 +4284,6 @@
                     
                     return `
                         <div class="stock-item${xaraliClass}" onclick="app.openStock(${stock.id})">
-                            <button 
-                                class="watchlist-btn ${isWatched ? 'active' : ''}" 
-                                onclick="event.stopPropagation(); app.toggleWatchlist(${stock.id})"
-                            >
-                                ${isWatched ? '⭐' : '☆'}
-                            </button>
                             <div class="stock-header">
                                 <div>
                                     <div class="stock-symbol">${stock.symbol}</div>
@@ -2786,6 +4459,19 @@
             openStock(stockId) {
                 this.selectedStock = this.stocks.find(s => s.id === stockId);
                 if (!this.selectedStock) return;
+                
+                // XRALI için seviye kontrolü
+                if (this.selectedStock.isXarAli && !this.canBuyXRALI()) {
+                    const currentLevel = this.levels.find(l => l.level === this.userLevel);
+                    const nextLevel = this.levels.find(l => l.level === 5);
+                    const xpNeeded = nextLevel.xpNeeded - this.userXP;
+                    
+                    this.showNotification(
+                        `🔒 XRALI - XarAli Yazılım A.Ş. sadece VIP üyeler için! Seviye 5'e ulaşman gerekiyor. (${xpNeeded} XP kaldı)`,
+                        'warning'
+                    );
+                    return;
+                }
                 
                 const owned = this.currentUser.portfolio[stockId] ? this.currentUser.portfolio[stockId].amount : 0;
                 
@@ -3021,6 +4707,13 @@
                     return;
                 }
                 
+                // 🎁 Bedava komisyon kullan
+                const usedFreeCommission = this.freeCommissionTrades > 0;
+                if (usedFreeCommission) {
+                    this.freeCommissionTrades--;
+                    this.showNotification(`🎁 Bedava işlem kullanıldı! (${this.freeCommissionTrades} kaldı)`, 'success');
+                }
+                
                 if (this.tradeMode === 'buy') {
                     const cost = this.selectedStock.price * amount;
                     const fees = this.calculateFees(cost);
@@ -3078,8 +4771,27 @@
                 this.closeModal();
                 this.saveData();
                 
+                // XP kazan
+                this.addXP(this.xpPerTrade);
+                if (this.tradeMode === 'buy') {
+                    this.addXP(this.xpPerProfit);
+                }
+                
                 // Achievement kontrolü
                 this.checkAchievements();
+                
+                // 🎯 Günlük görev kontrolü
+                this.checkMissionProgress('trade');
+                this.checkMissionProgress('xp');
+                this.checkMissionProgress('profit');
+                
+                if (this.tradeMode === 'buy') {
+                    const uniqueStocks = Object.keys(this.currentUser.portfolio).length;
+                    this.checkMissionProgress('buy_stock', uniqueStocks);
+                    this.checkMissionProgress('volume', this.selectedStock.price * amount);
+                } else {
+                    this.checkMissionProgress('volume', this.selectedStock.price * amount);
+                }
             },
             
             sellAll() {
@@ -3137,8 +4849,13 @@
                 
                 if (index === 1) this.renderPortfolio();
                 if (index === 2) this.updateLeaderboard();
-                if (index === 4) this.renderWatchlist();
-                if (index === 5) this.renderAchievements();
+                if (index === 4) this.renderAchievements();
+                if (index === 5) this.renderNews();
+                if (index === 6) this.renderMissions();
+                if (index === 7) {
+                    this.renderWheel();
+                    this.updateWheelStatus();
+                }
             },
             
             updateDisplay() {
@@ -3173,6 +4890,9 @@
                 this.renderStocks();
                 this.renderPortfolio();
                 this.updateLeaderboard();
+                
+                // 🔥 Firebase liderlik tablosunu güncelle
+                this.updateFirebaseLeaderboard();
                 
                 // Achievement kontrolü
                 this.checkAchievements();
@@ -3232,6 +4952,19 @@
                     this.generateBankAdvice(stock);
                 });
                 
+                // ✅ FİYATLAR VE HABERLER HER ZAMAN GÜNCELLENSİN!
+                this.renderStocks();
+                this.updateTopSectors();
+                
+                // Haber etkilerini işle (her zaman)
+                this.processNewsEffects();
+                
+                // %15 şans ile yeni haber üret (her zaman)
+                if (Math.random() < 0.15) {
+                    this.generateNews();
+                }
+                
+                // Kullanıcı varsa ekstra işlemler
                 if (this.currentUser) {
                     this.updateDisplay();
                     this.botTrade();
@@ -3379,7 +5112,7 @@
             },
             
             resetGame() {
-                if (!confirm('Oyunu sıfırlamak istediğinizden emin misiniz?')) return;
+                if (!confirm('Oyunu sıfırlamak istediğinizden emin misiniz? Tüm ilerlemeniz kaybolacak!')) return;
                 
                 if (this.currentUser) {
                     this.currentUser.cash = this.INITIAL_CASH;
@@ -3390,6 +5123,17 @@
                 this.totalTrades = 0;
                 this.watchlist = [];
                 this.activities = [];
+                this.news = [];
+                this.newsEffects = [];
+                this.userLevel = 1;
+                this.userXP = 0;
+                this.totalAchievementRewards = 0;
+                
+                // Başarımları sıfırla
+                this.achievements.forEach(ach => {
+                    ach.unlocked = false;
+                    ach.progress = 0;
+                });
                 
                 this.users.forEach(u => {
                     u.cash = this.INITIAL_CASH;
@@ -3402,14 +5146,18 @@
                     stock.history = [stock.basePrice];
                     stock.change = 0;
                     stock.volume = 0;
+                    stock.signal = '';
+                    stock.bankAdvice = null;
                 });
                 
                 this.sectorMomentum = {};
                 
                 this.saveData();
                 this.updateDisplay();
+                this.updateLevelDisplay();
                 this.renderActivities();
-                this.showNotification('Oyun sıfırlandı');
+                this.renderNews();
+                this.showNotification('Oyun sıfırlandı! Yeni başlangıç 🎮');
             },
             
             createBots() {
@@ -3437,6 +5185,13 @@
                         achievements: this.achievements,
                         totalAchievementRewards: this.totalAchievementRewards,
                         totalTrades: this.totalTrades,
+                        userLevel: this.userLevel,
+                        userXP: this.userXP,
+                        news: this.news,
+                        dailyMissions: this.dailyMissions,
+                        lastMissionReset: this.lastMissionReset,
+                        lastWheelSpin: this.lastWheelSpin,
+                        freeCommissionTrades: this.freeCommissionTrades,
                         theme: document.body.getAttribute('data-theme')
                     };
                     localStorage.setItem('bistTradingUltimate', JSON.stringify(data));
@@ -3455,6 +5210,13 @@
                         this.sectorMomentum = data.sectorMomentum || {};
                         this.watchlist = data.watchlist || [];
                         this.totalTrades = data.totalTrades || 0;
+                        this.userLevel = data.userLevel || 1;
+                        this.userXP = data.userXP || 0;
+                        this.news = data.news || [];
+                        this.dailyMissions = data.dailyMissions || [];
+                        this.lastMissionReset = data.lastMissionReset || null;
+                        this.lastWheelSpin = data.lastWheelSpin || null;
+                        this.freeCommissionTrades = data.freeCommissionTrades || 0;
                         
                         // Achievements yükle
                         if (data.achievements) {
@@ -3483,12 +5245,29 @@
             init() {
                 this.loadData();
                 
+                // Otomatik Giriş Kontrolü - "Beni Hatırla"
+                const rememberedUser = localStorage.getItem('rememberedUser');
+                if (rememberedUser) {
+                    const user = this.users.find(u => u.username === rememberedUser);
+                    if (user) {
+                        this.currentUser = user;
+                        this.showNotification(`Tekrar hoş geldin ${rememberedUser}! 🚀`);
+                        setTimeout(() => this.startApp(), 500);
+                        return; // welcome screen'i gösterme
+                    }
+                }
+                
                 ['agreement1', 'agreement2', 'agreement3'].forEach(id => {
                     document.getElementById(id)?.addEventListener('change', () => this.checkAgreements());
                 });
                 
+                // 🎯 İlk render - sayfa açıldığında hisseler görünsün
+                this.renderStocks();
+                this.generateNews(); // İlk haber
+                
                 setInterval(() => this.updatePrices(), 3000);
                 setInterval(() => this.saveData(), 30000);
+                setInterval(() => this.renderNews(), 1000); // Haber timer güncelleme
                 
                 document.addEventListener('click', (e) => {
                     if (e.target.classList.contains('modal')) {
@@ -3506,11 +5285,12 @@
                     }
                 });
                 
-                console.log('🚀 Borsa İstanbul ULTRA MEGA PRO - All features loaded!');
-                console.log('📊 31 Stocks (30 BIST + XRALI) | 💼 Portfolio | 🏆 Leaderboard | 📰 Activities');
-                console.log('⭐ Watchlist | 📈 Charts | 🎨 Themes | 🎖️ ACHIEVEMENTS');
-                console.log('🤖 AI Signals | 🏦 Bank Recommendations | 🎯 Target Prices');
-                console.log('⭐ XRALI - XarAli Yazılım A.Ş. - Volatil & Yükseliş Trendi!');
+                console.log('🚀 Borsa İstanbul ULTRA MEGA PRO V3.0 - HEYECAN PAKETİ! 🎯🎰⚡');
+                console.log('📊 31 Stocks | 💼 Portfolio | 🏆 Leaderboard | 🔥 Firebase Multiplayer');
+                console.log('🎯 GÜNLÜK GÖREVLER | 🎰 ŞANS ÇARKI | ⚡ FLASH OLAYLAR (60sn)!');
+                console.log('🤖 AI Signals | 🏦 Bank Advice | ⭐ XRALI | 🎮 Level System');
+                console.log('🎖️ Achievements | 📡 News Feed | 🔔 Real-time Notifications');
+                console.log('✨ NEW: Daily Missions, Lucky Wheel, Flash Events!');
             }
         };
         
